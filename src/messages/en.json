@@ -1,0 +1,164 @@
+{
+  "HomePage": {
+    "title": "Hello world!"
+  },
+  "navigations": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "membership": "Membership",
+    "news": "News",
+    "standards": "Standards",
+    "btnLogin": "Login",
+    "btnSignOut": "Sign Out"
+  },
+  "heroSection": {
+    "heroAutomation": {
+      "title": "Mongolian Society of Automation",
+      "subTitle": "Advancing Technology, Empowering Engineers",
+      "description": "Leading the adoption of new automation technologies, training engineers, and fostering cooperation between government and industry."
+    },
+    "heroEngineers": {
+      "title": "Industry Expertise",
+      "subTitle": "Professional Consulting & Solutions",
+      "description": "Connect with industry experts and access cutting-edge automation solutions for your organization."
+    },
+    "heroTraining": {
+      "title": "World-Class Training",
+      "subTitle": "Professional Development Programs",
+      "description": "Comprehensive automation courses and ISO certification programs designed for engineers at all levels."
+    },
+    "btnLearnMore": "Learn More",
+    "btnMember": "Become a Member"
+  },
+  "aboutSection": {
+    "title": "About Us",
+    "subTitle": "Pioneering Automation Excellence",
+    "description": "The Mongolian Society of Automation is dedicated to advancing automation technology adoption, providing professional development courses, improving human resources in the engineering sector, and building strong partnerships between government and private enterprises.",
+    "mission": "Our Mission",
+    "missionText": "To lead the transformation of Mongolia's industrial landscape through cutting-edge automation technologies and world-class engineering education.",
+    "vision": "Our Vision",
+    "visionText": "A future where every Mongolian engineer has access to the latest automation knowledge and skills.",
+    "members": "Members",
+    "certifications": "Certifications",
+    "standarts": "Standards"
+  },
+  "partnerMarquee": {
+    "badgeText": "Our Trusted by Industry Leaders",
+    "title": "Our Partners",
+    "partnersText": "trusted partners"
+  },
+  "ourServices": {
+    "badgeText": "What We Offer",
+    "title": "Our Services",
+    "subtitle": "Comprehensive Solutions for Automation Excellence",
+    "training": {
+      "title": "Professional Training",
+      "description": "Comprehensive automation courses for engineers at all levels."
+    },
+    "consulting": {
+      "title": "Industry Consulting",
+      "description": "Expert guidance on automation implementation and optimization."
+    },
+    "certification": {
+      "title": "MNS &ISO Certification",
+      "description": "Support for obtaining mongolian and international standards and certifications."
+    },
+    "networking": {
+      "title": "Industry Networking",
+      "description": "Connect with professionals and organizations in the automation sector."
+    }
+  },
+  "membership": {
+    "badgeText": "Join Us Today",
+    "title": "Join Our Society",
+    "subTitle": "Be Part of the Future",
+    "period": "/year",
+    "popular": "Popular",
+    "benefits": "Member Benefits",
+    "apply": "Apply for Membership",
+    "student": "Student Member",
+    "studentMember": {
+      "text1": "Access to training material",
+      "text2": "Student networking events",
+      "text3": "Certificate programs",
+      "text4": "Job placement assistance"
+    },
+    "individual": "Individual Member",
+    "individualMember": {
+      "text1": "All student benefits",
+      "text2": "Professional certification",
+      "text3": "Industry conferences",
+      "text4": "Mentorship programs",
+      "text5": "Exclusive workshops"
+    },
+    "corporate": "Corporate Member",
+    "corporateMember": {
+      "text1": "All Individual benefits",
+      "text2": "Company-wide access",
+      "text3": "Custom training programs",
+      "text4": "Priority consulting",
+      "text5": "Brand visibility",
+      "text6": "Government partnerships"
+    },
+    "btnText": "Become a Member"
+  },
+  "news": {
+    "badgeText": "Latest Updates",
+    "title": "Latest News",
+    "subTitle": "Stay Updated with Industry Developments",
+    "btnText": "Read More",
+    "viewAll": "View All News",
+    "titleDetail": "Article Not Found",
+    "subTitleDetail": "The article you are looking for does not exist or has been removed.",
+    "backBtnText": "Back to News"
+  },
+  "contacts": {
+    "badgeText": " Get in Touch",
+    "title": "Contact Us",
+    "subTitle": "Have questions? We would love to hear from you.",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "workingHours": "Working Hours",
+    "formTitle": "Send us a message",
+    "formName": "Your Name *",
+    "formEmail": "Your Email *",
+    "formPhone": "Your Phone (Optional)",
+    "formSubject": "Subject *",
+    "formMessagePlaceholder": "Your Message...",
+    "formMessage": "Send Message",
+    "formBtnText": "Send",
+    "formBtnSending": "Sending..."
+  },
+  "footer": {
+    "description": "Advancing automation technology and engineering excellence in Mongolia.",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved.",
+    "address": "Ulaanbaatar, Mongolia",
+    "email": "info@msa.mn",
+    "phone": "+976 75778833"
+  },
+  "authSection": {
+    "backBtnText": "Back to Home",
+    "title": "Welcome",
+    "description": "Login as registered user",
+    "loginBtnText": "Login",
+    "formEmail": "Email",
+    "formEmailPlaceholder": "Your email ...",
+    "formPassword": "Password",
+    "formPasswordPlaceholder": "Your password ..."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "subTitle": "The page you're looking for doesn't exist or has been moved.",
+    "backBtnText": "Буцах",
+    "btnText": "Эхлэл"
+  },
+  "standarts": {
+    "title": "MNS болон ISO Стандарт ба Удирдамж",
+    "subTitle": "Автоматжуулалт, аж үйлдвэрийн системийн олон улсын стандартуудад хандах"
+  }
+}
