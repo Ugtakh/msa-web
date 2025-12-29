@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { getLocaleAndMessages } from "@/i18n";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,18 +25,20 @@ export const metadata: Metadata = {
 
 // const queryClient = new QueryClient();
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { locale, messages } = await getLocaleAndMessages();
+
   return (
     <html lang="mn" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <QueryClientProvider client={queryClient}> */}
-        <NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <TooltipProvider>
             {children}
             <Toaster richColors />
