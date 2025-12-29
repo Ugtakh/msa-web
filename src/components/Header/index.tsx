@@ -89,7 +89,7 @@ const Navbar = () => {
                   "text-lg font-semibold transition-colors hover:text-primary relative group",
                   scrolled
                     ? "text-foreground"
-                    : pathName === "/standards"
+                    : pathName === "/standards" || pathName.includes("/news")
                     ? "text-foreground"
                     : "text-white"
                 )}
@@ -102,7 +102,7 @@ const Navbar = () => {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* <Button
+            <Button
               variant="ghost"
               size="sm"
               onClick={() => handleChangeLocale(locali === "en" ? "mn" : "en")}
@@ -110,7 +110,7 @@ const Navbar = () => {
             >
               <Globe className="w-4 h-4" />
               {locali === "en" ? "MN" : "EN"}
-            </Button> */}
+            </Button>
 
             {/* {user ? (
               <DropdownMenu>

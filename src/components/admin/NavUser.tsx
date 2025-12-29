@@ -52,7 +52,7 @@ export function NavUser({ user }: { user: Models.User | null }) {
           }}
         >
           <IconLogout />
-          Log out
+          гарах
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
