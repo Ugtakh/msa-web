@@ -9,6 +9,15 @@ import { useTranslations, useLocale } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+
+// import lightLogoMon from "../../assets/logos/msa-logo-mon.png";
+// import lightLogoEng from "../../assets/logos/msa-logo-eng.png";
+// import darkLogoMon from "../../assets/logos/msa-logo-dark-mon.png";
+// import darkLogoEng from "../../assets/logos/msa-logo-dark-eng.png";
+
+import lightLogo from "../../assets/logos/symbol-dark.svg";
+import darkLogo from "../../assets/logos/symbol-light.svg";
 
 const Navbar = () => {
   const router = useRouter();
@@ -36,7 +45,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    console.log("ELOC", locale);
     const cookieLocale = document.cookie
       .split("; ")
       .find((row) => row.startsWith("MYNEXTAPP_LOCALE="))
@@ -71,12 +79,48 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">
-                MSA
-              </span>
+          <Link href="/" className="flex items-center gap-1">
+            {/* <div className="w-50 h-20 px-2 rounded-lg bg-primary flex items-center justify-center"> */}
+            <Image
+              src={
+                scrolled
+                  ? darkLogo
+                  : pathName === "/standards" || pathName.includes("/news")
+                  ? darkLogo
+                  : lightLogo
+              }
+              alt="logo"
+              className="object-fit w-18 h-auto"
+            />
+            <div
+              className={`flex flex-col w-38 ${
+                scrolled
+                  ? "text-secondary"
+                  : pathName === "/standards" || pathName.includes("/news")
+                  ? "text-secondary"
+                  : "text-white"
+              }`}
+            >
+              <h2
+                className={`text-center ${
+                  locale === "mn" ? "text-[25px]" : "text-[24px]"
+                }`}
+              >
+                {locale === "mn" ? "МОНГОЛЫН" : "MONGOLIAN"}
+              </h2>
+              <h3
+                className={`text-center ${
+                  locale === "mn" ? "text-[9px]" : "text-[11px]"
+                }`}
+              >
+                {locale === "mn"
+                  ? "АВТОМАТЖУУЛАЛТЫН ХОЛБОО"
+                  : "SOCIETY OF AUTOMATION"}
+              </h3>
+              {/* 24px  11px, 26px <=> 9px */}
+              {/* SOCIETY OF AUTOMATION. АВТОМАТЖУУЛАЛТЫН ХОЛБОО */}
             </div>
+            {/* </div> */}
           </Link>
 
           {/* Desktop Navigation */}
@@ -88,9 +132,9 @@ const Navbar = () => {
                 className={cn(
                   "text-lg font-semibold transition-colors hover:text-primary relative group",
                   scrolled
-                    ? "text-foreground"
+                    ? "text-secondary"
                     : pathName === "/standards" || pathName.includes("/news")
-                    ? "text-foreground"
+                    ? "text-secondary"
                     : "text-white"
                 )}
               >
@@ -106,55 +150,25 @@ const Navbar = () => {
               variant="ghost"
               size="sm"
               onClick={() => handleChangeLocale(locali === "en" ? "mn" : "en")}
-              className="flex items-center gap-2"
+              className={`flex items-center gap-2  ${
+                scrolled
+                  ? "text-secondary"
+                  : pathName === "/standards" || pathName.includes("/news")
+                  ? "text-secondary"
+                  : "text-white"
+              }`}
             >
-              <Globe className="w-4 h-4" />
+              <Globe
+                className={`w-4 h-4  ${
+                  scrolled
+                    ? "text-secondary"
+                    : pathName === "/standards" || pathName.includes("/news")
+                    ? "text-secondary"
+                    : "text-white"
+                }`}
+              />
               {locali === "en" ? "MN" : "EN"}
             </Button>
-
-            {/* {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <User className="w-4 h-4" />
-                    {user.email?.split("@")[0]}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {isAdmin && (
-                    <>
-                      <DropdownMenuItem asChild>
-                        <Link href="/admin" className="flex items-center gap-2">
-                          <Shield className="w-4 h-4" />
-                          {locali === "en" ? "Admin Dashboard" : "Админ хяналт"}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                    </>
-                  )}
-                  <DropdownMenuItem
-                    onClick={handleSignOut}
-                    className="flex items-center gap-2"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    {locali === "en" ? "Sign Out" : "Гарах"}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/auth">{t("btnLogin")}</Link>
-                </Button>
-                <Button size="sm" asChild>
-                  <Link href="/auth">{t("btnLogin")}</Link>
-                </Button>
-              </>
-            )} */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -169,64 +183,30 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden absolute left-0 w-full py-4 border-t border-border bg-card/95 backdrop-blur-md">
+          <div className="lg:hidden absolute left-0 h-screen w-full py-4 border-t border-border bg-card/95 backdrop-blur-md">
             <div className="flex flex-col space-y-4">
-              {navLinks.map((link) =>
-                link.href.startsWith("/") ? (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-foreground hover:text-primary px-4 py-2 font-bold"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="text-foreground hover:text-primary px-4 py-2"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                )
-              )}
-              <div className="flex items-center gap-4 px-4 pt-4 border-t border-border">
-                {/* <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() =>
-                    handleChangeLocale(locali === "en" ? "mn" : "en")
-                  }
-                  className="flex items-center gap-2"
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-secondary hover:text-primary px-4 py-2 font-bold"
+                  onClick={() => setIsOpen(false)}
                 >
-                  <Globe className="w-4 h-4" color="white" />
-                  {locali === "en" ? "MN" : "EN"}
-                </Button> */}
-                {/* {user ? (
-                  <>
-                    {isAdmin && (
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href="/admin" onClick={() => setIsOpen(false)}>
-                          <Shield className="w-4 h-4 mr-2" />
-                          Admin
-                        </Link>
-                      </Button>
-                    )}
-                    <Button variant="outline" size="sm" onClick={handleSignOut}>
-                      <LogOut className="w-4 h-4 mr-2" />
-                      {locali === "en" ? "Sign Out" : "Гарах"}
-                    </Button>
-                  </>
-                ) : (
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/auth" onClick={() => setIsOpen(false)}>
-                      {t("btnLogin")}
-                    </Link>
-                  </Button>
-                )} */}
-              </div>
+                  {link.label}
+                </Link>
+              ))}
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  handleChangeLocale(locali === "en" ? "mn" : "en")
+                }
+                className={`flex items-center gap-2 text-secondary hover:cursor-pointer hover:text-primary`}
+              >
+                <Globe className={`w-4 h-4`} />
+                {locali === "en" ? "MN" : "EN"}
+              </Button>
             </div>
           </div>
         )}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   MapPin,
   Mail,
@@ -10,9 +11,12 @@ import {
   Linkedin,
   Youtube,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+
+import darkLogoMon from "../../assets/logos/symbol-dark.svg";
 
 const FooterSection = () => {
+  const locale = useLocale();
   const t = useTranslations("footer");
   const tb = useTranslations("navigations");
   const quickLinks = [
@@ -33,14 +37,35 @@ const FooterSection = () => {
   return (
     <footer className="bg-secondary text-secondary-foreground">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* About */}
           <div>
-            <Link href="/" className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">
-                  MSA
+            <Link href="/" className="flex items-center space-x-1 mb-6">
+              <Image
+                src={darkLogoMon}
+                alt="logo"
+                className="object-fit w-18 h-auto"
+              />
+              <div className="flex flex-col">
+                <span
+                  className={`text-center ${
+                    locale === "mn" ? "text-[25px]" : "text-[24px]"
+                  }`}
+                >
+                  {locale === "mn" ? "МОНГОЛЫН" : "MONGOLIAN"}
                 </span>
+                {/* MONGOLIAN  МОНГОЛЫН*/}
+                <span
+                  className={`text-center ${
+                    locale === "mn" ? "text-[9px]" : "text-[11px]"
+                  }`}
+                >
+                  {locale === "mn"
+                    ? "АВТОМАТЖУУЛАЛТЫН ХОЛБОО"
+                    : "SOCIETY OF AUTOMATION"}
+                </span>
+                {/* 24px  11px, 26px <=> 9px */}
+                {/* SOCIETY OF AUTOMATION. АВТОМАТЖУУЛАЛТЫН ХОЛБОО */}
               </div>
             </Link>
             <p className="text-secondary-foreground/70 leading-relaxed">
@@ -70,13 +95,13 @@ const FooterSection = () => {
             <h4 className="font-semibold text-lg mb-6">{t("contactUs")}</h4>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <MapPin className="w-5 h-5 text-primary mr-3 mt-0.5 shrink-0" />
+                <MapPin className="w-5 h-5 text-white mr-3 mt-0.5 shrink-0" />
                 <span className="text-secondary-foreground/70">
                   {t("address")}
                 </span>
               </li>
               <li className="flex items-center">
-                <Mail className="w-5 h-5 text-primary mr-3 shrink-0" />
+                <Mail className="w-5 h-5 text-white mr-3 shrink-0" />
                 <a
                   href={`mailto:${t("email")}`}
                   className="text-secondary-foreground/70 hover:text-primary transition-colors"
@@ -85,10 +110,10 @@ const FooterSection = () => {
                 </a>
               </li>
               <li className="flex items-center">
-                <Phone className="w-5 h-5 text-primary mr-3 shrink-0" />
+                <Phone className="w-5 h-5 text-white mr-3 shrink-0" />
                 <a
                   href={`tel:${t("phone")}`}
-                  className="text-secondary-foreground/70 hover:text-primary transition-colors"
+                  className="text-secondary-foreground/70 hover:text-white transition-colors"
                 >
                   {t("phone")}
                 </a>
