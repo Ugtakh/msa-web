@@ -57,11 +57,11 @@ const FooterSection = () => {
                 {/* MONGOLIAN  МОНГОЛЫН*/}
                 <span
                   className={`text-center ${
-                    locale === "mn" ? "text-[9px]" : "text-[11px]"
+                    locale === "mn" ? "text-[8px]" : "text-[11px]"
                   }`}
                 >
                   {locale === "mn"
-                    ? "АВТОМАТЖУУЛАЛТЫН ХОЛБОО"
+                    ? "АВТОМАТЖУУЛАЛТЫН НИЙГЭМЛЭГ"
                     : "SOCIETY OF AUTOMATION"}
                 </span>
                 {/* 24px  11px, 26px <=> 9px */}

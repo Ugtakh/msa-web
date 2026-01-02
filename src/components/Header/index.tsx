@@ -110,11 +110,11 @@ const Navbar = () => {
               </h2>
               <h3
                 className={`text-center ${
-                  locale === "mn" ? "text-[9px]" : "text-[11px]"
+                  locale === "mn" ? "text-[8px]" : "text-[11px]"
                 }`}
               >
                 {locale === "mn"
-                  ? "АВТОМАТЖУУЛАЛТЫН ХОЛБОО"
+                  ? "АВТОМАТЖУУЛАЛТЫН НИЙГЭМЛЭГ"
                   : "SOCIETY OF AUTOMATION"}
               </h3>
               {/* 24px  11px, 26px <=> 9px */}
