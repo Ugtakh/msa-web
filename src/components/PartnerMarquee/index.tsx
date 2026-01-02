@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 const partners = [
   { name: "ECA Engingeering", logo: "ECA", color: "from-blue-600 to-blue-800" },
   { name: "Tavan Tolgoi", logo: "TT", color: "from-amber-500 to-amber-700" },
-  { name: "MCS Group", logo: "MCS", color: "from-red-500 to-red-700" },
+  { name: "Yalguun Bayan", logo: "YB", color: "from-red-500 to-red-700" },
   {
     name: "Monnis Group",
     logo: "MG",
