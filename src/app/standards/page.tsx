@@ -30,7 +30,7 @@ const Standards = () => {
 
   const getData = async () => {
     const { rows } = await getStandarts();
-    console.log(rows);
+    // console.log(rows);
     setStandarts(rows as StandardType[]);
     setIsLoading(false);
   };

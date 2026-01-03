@@ -46,7 +46,7 @@ export function NavUser({ user }: { user: Models.User | null }) {
         <DropdownMenuItem
           className="hover:cursor-pointer"
           onClick={async () => {
-            console.log("logout");
+            // console.log("logout");
             setCurrent(null);
             await signOut();
           }}

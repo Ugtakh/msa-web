@@ -9,9 +9,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowRight, Loader2 } from "lucide-react";
 import { formatDate } from "@/lib/format-date";
-import { type ALL_NEWS_QUERYResult } from "../../../sanity.types";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type NewsCategory = "news" | "event" | "workshop" | "announcement";
 type Locale = "en" | "mn";
@@ -32,11 +29,7 @@ interface NewsArticle {
   created_at: string;
 }
 
-type NewsProps = {
-  news: ALL_NEWS_QUERYResult;
-};
-
-const NewsSection = ({ news }: NewsProps) => {
+const NewsCard = () => {
   const t = useTranslations("news");
   const locale = useLocale() as Locale;
 
@@ -151,39 +144,39 @@ const NewsSection = ({ news }: NewsProps) => {
           <>
             {/* News Grid */}
             <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {news?.map((item) => (
+              {displayArticles.map((item) => (
                 <Link
-                  key={item._id}
-                  href={`/news/${item._id}`}
+                  key={item.id}
+                  href={`/news/${item.id}`}
                   className="news-card group bg-background rounded-xl overflow-hidden border border-border hover:shadow-xl transition-all duration-300"
                 >
                   <div className="relative overflow-hidden">
                     <Image
                       src={
-                        item.thumbnailUrl?.asset?.url ||
+                        item.image_url ||
                         "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=300&fit=crop"
                       }
-                      alt={item.title || ""}
+                      alt={item.title.en}
                       width={400}
                       height={300}
                       className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
-                        {getCategoryLabel("news")}
+                        {getCategoryLabel(item.category)}
                       </span>
                     </div>
                   </div>
                   <div className="p-6">
                     <div className="flex items-center text-muted-foreground text-sm mb-3">
                       <Calendar className="w-4 h-4 mr-2" />
-                      {formatDate(locale, item.publishedAt)}
+                      {formatDate(locale, item.published_at)}
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {item.title}
+                      {item?.title[locale] || item.title.mn}
                     </h3>
                     <p className="text-foreground/70 mb-4 line-clamp-2">
-                      {item.title}
+                      {item?.excerpt[locale] || item.excerpt.mn}
                     </p>
                     <div className="flex items-center text-primary font-medium group-hover:translate-x-2 transition-transform">
                       <span>{t("btnText")}</span>
@@ -208,4 +201,4 @@ const NewsSection = ({ news }: NewsProps) => {
   );
 };
 
-export default NewsSection;
+export default NewsCard;

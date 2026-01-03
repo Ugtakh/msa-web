@@ -33,7 +33,7 @@ export default function ContactUs() {
 
     try {
       // Perform form submission logic here
-      console.log("Form submitted:", { name, email, message });
+      // console.log("Form submitted:", { name, email, message });
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setName("");
       setEmail("");

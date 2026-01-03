@@ -99,7 +99,7 @@ function TableCellViewer() {
       setForm(() => ({ ...form, bgImageUrl: previewUrl }));
       setPreview(() => null);
     } catch (error) {
-      console.log("UPLOAD-ERROR", error);
+      // console.log("UPLOAD-ERROR", error);
     }
   };
 
@@ -245,7 +245,7 @@ function TableCellViewer() {
         <DrawerFooter>
           <Button
             onClick={() => {
-              console.log("Saving ...", form);
+              // console.log("Saving ...", form);
             }}
           >
             Хадгалах
