@@ -21,9 +21,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mongolian Society of Automation",
   description: "www.msa.mn official website",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", sizes: "32x32" },
+      { url: "/favicon-192x192.png", sizes: "192x192" },
+      { url: "/favicon-512x512.png", sizes: "512x512" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
-
-// const queryClient = new QueryClient();
 
 export default async function RootLayout({
   children,
