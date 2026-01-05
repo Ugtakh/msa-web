@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Header";
 import { useEffect, useState } from "react";
-import Footer from "@/components/FooterSection";
+import Footer from "@/components/sections/FooterSection";
 import { ArrowLeft, Calendar, Loader2 } from "lucide-react";
 import { formatDate } from "@/lib/format-date";
 import { useParams } from "next/navigation";

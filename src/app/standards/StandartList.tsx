@@ -1,6 +1,6 @@
 "use client";
 
-import Footer from "@/components/FooterSection";
+import Footer from "@/components/sections/FooterSection";
 import Navbar from "@/components/Header";
 import { FileText, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";

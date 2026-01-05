@@ -244,26 +244,19 @@ export function DataTable({ data: initialData }: { data: BannerType[] }) {
 
   return (
     <EditDrawerProvider>
-      <Tabs
-        defaultValue="outline"
-        className="w-full flex-col justify-start gap-6"
-      >
-        <div className="flex items-center justify-end px-4 lg:px-6">
+      <Tabs defaultValue="outline" className="w-full flex-col justify-start">
+        {/* <div className="flex items-center justify-end px-4 lg:px-6">
           <Label htmlFor="view-selector" className="sr-only">
             View
           </Label>
 
           <div className="flex items-center gap-2">
-            {/* <Button size="sm">
-              <IconPlus />
-              <span className="hidden lg:inline">Баннер нэмэх</span>
-            </Button> */}
-            <AddModal />
+           
           </div>
-        </div>
+        </div> */}
         <TabsContent
           value="outline"
-          className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
+          className="relative flex flex-col gap-4 overflow-auto"
         >
           <div className="overflow-hidden rounded-lg border">
             <DndContext

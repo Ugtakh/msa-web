@@ -49,7 +49,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <TooltipProvider>
             {children}
-            <Toaster richColors />
+            <Toaster richColors position="bottom-center" />
           </TooltipProvider>
         </NextIntlClientProvider>
         {/* </QueryClientProvider> */}

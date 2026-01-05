@@ -1,12 +1,16 @@
-// import { getBanners } from "@/actions/banners";
 import { DataTable } from "@/components/admin/DataTable";
-import type { BannerType } from "@/lib/schemas";
+import { AddModal } from "@/components/admin/DataTable/components/AddModal";
 
 const BannerTable = async () => {
-  // const datas = await getBanners();
-
-  // return <DataTable data={datas.rows as BannerType[]} />;
-  return <DataTable data={[]} />;
+  return (
+    <div>
+      <div className="flex justify-between pb-6">
+        <h1 className="text-xl font-bold text-secondary">Баннер Мэдээлэл</h1>
+        <AddModal />
+      </div>
+      <DataTable data={[]} />;
+    </div>
+  );
 };
 
 export default BannerTable;

@@ -11,13 +11,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-// import lightLogoMon from "../../assets/logos/msa-logo-mon.png";
-// import lightLogoEng from "../../assets/logos/msa-logo-eng.png";
-// import darkLogoMon from "../../assets/logos/msa-logo-dark-mon.png";
-// import darkLogoEng from "../../assets/logos/msa-logo-dark-eng.png";
-
-import lightLogo from "../../assets/logos/symbol-dark.svg";
-import darkLogo from "../../assets/logos/symbol-light.svg";
+import lightLogo from "@/assets/logos/symbol-dark.svg";
+import darkLogo from "@/assets/logos/symbol-light.svg";
 
 const Navbar = () => {
   const router = useRouter();

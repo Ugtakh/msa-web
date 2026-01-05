@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 
-import darkLogoMon from "../../assets/logos/symbol-dark.svg";
+import darkLogoMon from "@/assets/logos/symbol-dark.svg";
 
 const FooterSection = () => {
   const locale = useLocale();

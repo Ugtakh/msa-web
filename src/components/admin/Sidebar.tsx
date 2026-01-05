@@ -15,11 +15,14 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
 import { NavUser } from "./NavUser";
+import msaLogo from "@/assets/logos/symbol-light.svg";
+import Image from "next/image";
 
 const menuItems = [
   { title: "Дашбоард", icon: <LayoutDashboard />, link: "/admin" },
   { title: "Баннер", icon: <ImageIcon />, link: "/admin/banners" },
   { title: "Хамтрагчид", icon: <Users />, link: "/admin/partners" },
+  { title: "Стандарт", icon: <FileText />, link: "/admin/standards" },
   { title: "Мэдээ", icon: <FileText />, link: "/admin/news" },
 ];
 
@@ -34,10 +37,13 @@ export default function Sidebar() {
         open ? "w-64" : "w-16"
       } flex flex-col`}
     >
-      <div className="flex items-center justify-between px-4 py-3 border-b">
+      <div className="flex items-center justify-center px-4 py-3 border-b">
         {open && (
-          <div className="flex-1 font-bold text-center">
-            <span className="bg-primary p-2 text-white rounded-lg">MSA</span>
+          <div className="flex justify-center flex-1 font-bold text-center">
+            <Image src={msaLogo} alt="logo" width={60} height={60} />
+            {/* <span className=" text-secondary text-sm">
+              Монголын Автомажуулалтын Нийгэмлэг
+            </span> */}
           </div>
         )}
         <Button variant="ghost" size="sm" onClick={() => setOpen(!open)}>

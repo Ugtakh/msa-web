@@ -8,8 +8,10 @@ const NewsList = async () => {
   return (
     <>
       <div>
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl font-bold">Мэдээний Жагсаалт</h1>
+        <div className="flex justify-between items-center pb-6">
+          <h1 className="text-xl font-bold text-secondary">
+            Мэдээний Жагсаалт
+          </h1>
           <Button asChild>
             <Link href={"/admin/news/new"}>Шинэ мэдээ</Link>
           </Button>

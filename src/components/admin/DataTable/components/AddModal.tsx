@@ -95,12 +95,14 @@ export function AddModal() {
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Баннер нэмэх</DialogTitle>
-          <DialogDescription>Талбаруудыг бүгдийг бөглөнө.</DialogDescription>
+          <DialogTitle className="text-secondary">Баннер нэмэх</DialogTitle>
+          <DialogDescription className="text-secondary">
+            Талбаруудыг бүгдийг бөглөнө.
+          </DialogDescription>
         </DialogHeader>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-3"
+          className="flex flex-col gap-3 text-secondary"
         >
           <div className="grid gap-3">
             <div className="grid gap-2">
@@ -165,14 +167,14 @@ export function AddModal() {
                 accept="image/*"
                 onChange={onFileChange}
               />
-              <div className="w-full h-50">
+              <div className="w-full h-35 overflow-hidden">
                 {preview && (
                   <Image
                     src={preview || ""}
                     alt="Preview"
                     width={100}
                     height={100}
-                    className=" w-full h-full object-cover"
+                    className="h-full w-auto object-contain text-center"
                   />
                 )}
                 {/* {preview ? (
