@@ -34,3 +34,21 @@ export const NEWS_QUERY_BY_ID = defineQuery(`*[
     hotspot
   }
 }`);
+
+export const ALL_ARTICLE_QUERY = defineQuery(`*[
+  _type == "article"
+] | order(publishedAt desc) {
+  _id,
+  title,
+  titleEng,
+  content,
+  contentEng,
+  publishedAt,
+  "thumbnailUrl": thumbnailUrl{
+    asset->{
+      _id,
+      url
+    },
+    hotspot
+  }
+}`);

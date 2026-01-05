@@ -13,20 +13,20 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/providers/AuthProveder";
+import { useAuth } from "@/providers/AuthProvider";
 import { NavUser } from "./NavUser";
 
 const menuItems = [
   { title: "Дашбоард", icon: <LayoutDashboard />, link: "/admin" },
   { title: "Баннер", icon: <ImageIcon />, link: "/admin/banners" },
-  { title: "Партнер", icon: <Users />, link: "/admin/partners" },
-  { title: "Стандарт", icon: <FileText />, link: "/admin/standards" },
+  { title: "Хамтрагчид", icon: <Users />, link: "/admin/partners" },
+  { title: "Мэдээ", icon: <FileText />, link: "/admin/news" },
 ];
 
 export default function Sidebar() {
   const pathName = usePathname();
   const [open, setOpen] = useState(true);
-  const { current } = useAuth();
+  // const { current } = useAuth();
 
   return (
     <div
@@ -63,9 +63,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      <div className="px-2 py-3">
-        <NavUser user={current} />
-      </div>
+      <div className="px-2 py-3">{/* <NavUser user={current} /> */}</div>
     </div>
   );
 }

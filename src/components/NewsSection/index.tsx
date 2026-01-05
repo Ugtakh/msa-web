@@ -195,12 +195,12 @@ const NewsSection = ({ news }: NewsProps) => {
             </div>
 
             {/* View All Button */}
-            <div className="text-center">
+            {/* <div className="text-center">
               <Button variant="outline" size="lg">
                 {t("viewAll")}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-            </div>
+            </div> */}
           </>
         )}
       </div>

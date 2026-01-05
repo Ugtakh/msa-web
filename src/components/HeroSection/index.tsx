@@ -3,41 +3,26 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Play, ChevronLeft, ChevronRight } from "lucide-react";
-import heroAutomation from "@/assets/images/hero-automation.jpg";
-import heroEngineers from "@/assets/images/hero-engineers.jpg";
-import heroTraining from "@/assets/images/hero-training.jpg";
 import Image from "next/image";
 import Link from "next/link";
+import { BannerType } from "@/lib/schemas";
+import { ALL_BANNERS_QUERYResult } from "../../../sanity.types";
 
-const HeroSection = () => {
+const HeroSection = ({ banners }: { banners: ALL_BANNERS_QUERYResult }) => {
+  const locale = useLocale();
   const t = useTranslations("heroSection");
   const heroRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
-    {
-      image: heroAutomation,
-      section: "heroAutomation",
-    },
-    {
-      image: heroEngineers,
-      section: "heroEngineers",
-    },
-    {
-      image: heroTraining,
-      section: "heroTraining",
-    },
-  ];
-
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [slides.length]);
+    setCurrentSlide((prev) => (prev + 1) % banners.length);
+  }, [banners.length]);
 
   const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  }, [slides.length]);
+    setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
+  }, [banners.length]);
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 6000);
@@ -56,43 +41,35 @@ const HeroSection = () => {
     return () => ctx.revert();
   }, []);
 
+  // useEffect(() => {
+  //   getAllBanners();
+  // }, []);
+
   return (
     <section
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Background Images with Transition */}
-      {slides.map((slide, index: number) => (
+      {banners?.map((banner, index: number) => (
         <div
-          key={slide.section}
+          key={banner._id}
           className="absolute inset-0 z-0 transition-opacity duration-1000"
           style={{ opacity: index === currentSlide ? 1 : 0 }}
         >
           <Image
-            src={slide.image}
+            src={banner.bannerUrl?.asset?.url || ""}
             alt={`Slide ${index + 1}`}
-            className="w-full h-full object-cover"
+            fill
+            priority={currentSlide === 0}
+            sizes="100vw"
+            quality={90}
+            className="w-full h-auto object-cover"
           />
           <div className="absolute inset-0 bg-linear-to-r from-secondary/80 via-secondary/60 to-secondary/40" />
           <div className="absolute inset-0 bg-linear-to-r from-secondary/10 via-secondary/30 to-secondary/50" />
         </div>
       ))}
-
-      {/* Animated particles */}
-      {/* <div className="absolute inset-0 z-10 pointer-events-none">
-        {[...Array(20)].map((_) => (
-          <div
-            key={Math.random()}
-            className="absolute w-1 h-1 bg-primary/30 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
-      </div> */}
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-20 pt-20">
@@ -101,7 +78,9 @@ const HeroSection = () => {
             className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold mb-6 leading-tight"
             style={{ color: "white", textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}
           >
-            {t(`${slides[currentSlide].section}.title`)}
+            {locale === "mn"
+              ? banners[currentSlide].title
+              : banners[currentSlide].titleEng}
           </h1>
           <p
             className="text-xl md:text-2xl lg:text-3xl font-medium mb-6"
@@ -110,7 +89,9 @@ const HeroSection = () => {
               textShadow: "0 2px 10px rgba(0,0,0,0.3)",
             }}
           >
-            {t(`${slides[currentSlide].section}.subTitle`)}
+            {locale === "mn"
+              ? banners[currentSlide].subTitle
+              : banners[currentSlide].subTitleEng}
           </p>
           <p
             className="text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium"
@@ -119,7 +100,9 @@ const HeroSection = () => {
               textShadow: "0 2px 12px rgba(0,0,0,0.5)",
             }}
           >
-            {t(`${slides[currentSlide].section}.description`)}
+            {locale === "mn"
+              ? banners[currentSlide].description
+              : banners[currentSlide].descriptionEng}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
@@ -135,8 +118,7 @@ const HeroSection = () => {
             <Button
               variant="outline"
               size="lg"
-              className="px-8 py-6 text-lg shadow-xl bg-transparent"
-              style={{ borderColor: "rgba(255,255,255,0.5)", color: "white" }}
+              className="px-8 py-6 text-lg shadow-xl bg-transparent text-white hover:cursor-pointer hover:text-primary"
             >
               <Play className="mr-2 w-5 h-5" />
               {t(`btnLearnMore`)}
@@ -156,9 +138,9 @@ const HeroSection = () => {
         </Button>
 
         <div className="flex gap-2">
-          {slides.map((slide, index) => (
+          {banners.map((banner, index) => (
             <Button
-              key={slide.section}
+              key={banner._id}
               onClick={() => setCurrentSlide(index)}
               className={`w-3 h-3 rounded-full transition-all ${
                 index === currentSlide

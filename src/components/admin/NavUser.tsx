@@ -13,11 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/actions/auth";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useAuth } from "@/providers/AuthProveder";
 
 export function NavUser({ user }: { user: Models.User | null }) {
   const isMobile = useIsMobile();
-  const { setCurrent } = useAuth();
+  // const { setCurrent } = useAuth();
 
   return (
     <DropdownMenu>
@@ -46,8 +45,8 @@ export function NavUser({ user }: { user: Models.User | null }) {
         <DropdownMenuItem
           className="hover:cursor-pointer"
           onClick={async () => {
-            // console.log("logout");
-            setCurrent(null);
+            console.log("logout");
+            // setCurrent(null);
             await signOut();
           }}
         >

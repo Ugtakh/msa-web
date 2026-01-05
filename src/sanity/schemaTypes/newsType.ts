@@ -1,169 +1,179 @@
-export default {
+import { ImageIcon, TextIcon } from "@sanity/icons";
+import { defineField, defineType, defineArrayMember } from "sanity";
+
+export const newsType = defineType({
   name: "news",
-  title: "Мэдээ",
+  title: "News",
   type: "document",
+  icon: TextIcon,
   fields: [
-    {
+    defineField({
       name: "title",
-      title: "Гарчиг (Монгол)",
       type: "string",
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
+      title: "Title (Mongolian)",
+      description: "Title Mongolian version",
+      validation: (rule) => [
+        rule.required().error("News title mongolian version is required"),
+      ],
+    }),
+    defineField({
       name: "titleEng",
-      title: "Гарчиг (Англи)",
       type: "string",
-    },
-    {
-      name: "content",
-      title: "Контент (Монгол)",
-      type: "array",
-      of: [
-        {
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H1", value: "h1" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-              { title: "Underline", value: "underline" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  {
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          type: "image",
-          options: {
-            hotspot: true,
-          },
-          fields: [
-            {
-              name: "alt",
-              type: "string",
-              title: "Alternative text",
-            },
-            {
-              name: "caption",
-              type: "string",
-              title: "Caption",
-            },
-          ],
-        },
+      title: "Title (English)",
+      description: "Title English version",
+      validation: (rule) => [
+        rule.required().error("News title english version is required"),
       ],
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: "contentEng",
-      title: "Контент (Англи)",
-      type: "array",
-      of: [
-        {
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H1", value: "h1" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-              { title: "Underline", value: "underline" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  {
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          type: "image",
-          options: {
-            hotspot: true,
-          },
-          fields: [
-            {
-              name: "alt",
-              type: "string",
-              title: "Alternative text",
-            },
-            {
-              name: "caption",
-              type: "string",
-              title: "Caption",
-            },
-          ],
-        },
-      ],
-    },
-    {
+    }),
+    defineField({
       name: "thumbnailUrl",
-      title: "Нүүр зураг",
       type: "image",
+      title: "Thumbnail Image",
       options: {
         hotspot: true,
       },
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
+      validation: (rule) => [
+        rule.required().error("At least one image is required"),
+      ],
+    }),
+    defineField({
+      name: "content",
+      title: "Content (Mongolian)",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H1", value: "h1" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "H4", value: "h4" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+            ],
+            annotations: [
+              {
+                title: "URL",
+                name: "link",
+                type: "object",
+                fields: [{ title: "URL", name: "href", type: "url" }],
+              },
+            ],
+          },
+        }),
+        defineArrayMember({
+          type: "image",
+          icon: ImageIcon,
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative text",
+            },
+          ],
+        }),
+      ],
+      validation: (rule) => [
+        rule.required().error("Mongolian content is required"),
+      ],
+    }),
+    defineField({
+      name: "contentEng",
+      title: "Content (English)",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H1", value: "h1" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "H4", value: "h4" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+            ],
+            annotations: [
+              {
+                title: "URL",
+                name: "link",
+                type: "object",
+                fields: [{ title: "URL", name: "href", type: "url" }],
+              },
+            ],
+          },
+        }),
+        defineArrayMember({
+          type: "image",
+          icon: ImageIcon,
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative text",
+            },
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: "publishedAt",
-      title: "Нийтлэх огноо",
+      title: "Published at",
       type: "datetime",
+      description: "When the news was published",
       initialValue: () => new Date().toISOString(),
-    },
+      validation: (rule) => [
+        rule.required().error("Published date is required"),
+      ],
+    }),
   ],
   preview: {
     select: {
       title: "title",
-      media: "coverImage",
-      date: "publishedAt",
+      subtitle: "titleEng",
+      media: "thumbnailUrl",
+      publishedAt: "publishedAt",
     },
-    prepare(selection: any) {
-      const { title, media, date } = selection;
+    prepare(selection) {
+      const { title, subtitle, media, publishedAt } = selection;
       return {
         title: title,
-        subtitle: date ? new Date(date).toLocaleDateString("mn-MN") : "",
+        subtitle: publishedAt
+          ? `${subtitle} • ${new Date(publishedAt).toLocaleDateString("mn-MN")}`
+          : subtitle,
         media: media,
       };
     },
   },
-};
+  orderings: [
+    {
+      title: "Published Date, New",
+      name: "publishedAtDesc",
+      by: [{ field: "publishedAt", direction: "desc" }],
+    },
+    {
+      title: "Published Date, Old",
+      name: "publishedAtAsc",
+      by: [{ field: "publishedAt", direction: "asc" }],
+    },
+  ],
+});

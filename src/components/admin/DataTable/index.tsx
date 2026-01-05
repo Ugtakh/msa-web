@@ -75,18 +75,19 @@ import TableCellViewer from "./components/EditDrawer";
 import {
   EditDrawerProvider,
   useEditDrawer,
-} from "./components/EditDrawerProveder";
+} from "./components/EditDrawerProvider";
 import moment from "moment";
+import { AddModal } from "./components/AddModal";
 
 const columns: ColumnDef<BannerType>[] = [
   {
-    accessorKey: "bgImageUrl",
+    accessorKey: "bannerUrl",
     header: () => <div className="w-full text-right">Зураг</div>,
     cell: ({ row }) => (
       <div className="px-3">
         <Avatar className="rounded-lg">
-          <AvatarImage src={row.getValue("bgImageUrl") || ""} alt={"preview"} />
-          <AvatarFallback>Pho</AvatarFallback>
+          <AvatarImage src={row.getValue("bannerUrl") || ""} alt={"preview"} />
+          <AvatarFallback>P</AvatarFallback>
         </Avatar>
       </div>
     ),
@@ -118,15 +119,8 @@ const columns: ColumnDef<BannerType>[] = [
     accessorKey: "publishedAt",
     header: () => <div className="w-full text-left">Огноо</div>,
     cell: ({ row }) => (
-      <div>{moment(row.original.$updatedAt).format("yyyy-MM-DD")}</div>
+      <div>{moment(row.original.createdAt).format("yyyy-MM-DD")}</div>
     ),
-  },
-  {
-    accessorKey: "reviewer",
-    header: "Нийтлэгч",
-    cell: ({ row }) => {
-      return row.original.reviewer;
-    },
   },
   {
     id: "actions",
@@ -166,7 +160,7 @@ const columns: ColumnDef<BannerType>[] = [
 
 function DraggableRow({ row }: { row: Row<BannerType> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original.$id,
+    id: row.original._id || "",
   });
 
   return (
@@ -208,7 +202,7 @@ export function DataTable({ data: initialData }: { data: BannerType[] }) {
   );
 
   const dataIds = useMemo<UniqueIdentifier[]>(
-    () => data?.map(({ $id }) => $id) || [],
+    () => data?.map(({ _id }) => _id || "") || [],
     [data]
   );
 
@@ -222,7 +216,7 @@ export function DataTable({ data: initialData }: { data: BannerType[] }) {
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row.$id.toString(),
+    getRowId: (row) => row._id || "",
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -260,10 +254,11 @@ export function DataTable({ data: initialData }: { data: BannerType[] }) {
           </Label>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
+            {/* <Button size="sm">
               <IconPlus />
               <span className="hidden lg:inline">Баннер нэмэх</span>
-            </Button>
+            </Button> */}
+            <AddModal />
           </div>
         </div>
         <TabsContent

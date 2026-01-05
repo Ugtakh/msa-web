@@ -5,30 +5,7 @@ import { createSessionClient } from "@/lib/appwrite/client";
 import type { BannerType } from "@/lib/schemas";
 import { getPreviewUrl } from "@/lib/getPreviewUrl";
 
-export const getBanners = async () => {
-  try {
-    const { tables } = await createSessionClient();
-    const { rows, total } = await tables.listRows<BannerType>({
-      databaseId: process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID ?? "",
-      tableId: "banners",
-      queries: [
-        Query.select([
-          "$id",
-          "title",
-          "subTitle",
-          "description",
-          "bgImageUrl",
-          "$updatedAt",
-          "reviewer",
-        ]),
-      ],
-    });
-    return { status: true, message: "Succes", rows, total };
-  } catch (error) {
-    // console.log("error", error)
-    return { status: false, message: "Access Denied" };
-  }
-};
+export const getBanners = async () => {};
 
 export const uploadBannerImage = async (formData: FormData) => {
   const { storage, getID } = await createSessionClient();

@@ -4,7 +4,6 @@ import { type ChangeEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
-
 import {
   Drawer,
   DrawerClose,
@@ -13,17 +12,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { Textarea } from "@/components/ui/textarea";
 import {
   Popover,
@@ -32,11 +22,12 @@ import {
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useEditDrawer } from "./EditDrawerProveder";
+import { useEditDrawer } from "./EditDrawerProvider";
 import { formatDate } from "@/lib/format-date";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { uploadBannerImage } from "@/actions/banners";
+import { BannerType } from "@/lib/schemas";
 
 function TableCellViewer() {
   const isMobile = useIsMobile();
@@ -46,24 +37,36 @@ function TableCellViewer() {
   const [_, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    title: selectedBanner?.title,
-    subTitle: selectedBanner?.subTitle,
-    description: selectedBanner?.description,
-    reviewer: selectedBanner?.reviewer,
-    $updatedAt: selectedBanner?.$updatedAt,
-    bgImageUrl: selectedBanner?.bgImageUrl,
+  const [form, setForm] = useState<BannerType>({
+    _id: "",
+    title: selectedBanner?.title || "",
+    titleEng: selectedBanner?.title || "",
+    subTitle: selectedBanner?.subTitle || "",
+    subTitleEng: selectedBanner?.subTitleEng || "",
+    description: selectedBanner?.description || "",
+    descriptionEng: selectedBanner?.descriptionEng || "",
+    bannerUrl: selectedBanner?.bannerUrl || {
+      _type: "image",
+      asset: {
+        _ref: "reference",
+        _type: "image",
+      },
+    },
+    createdAt: selectedBanner?.createdAt || "",
   });
 
   useEffect(() => {
     if (selectedBanner) {
       setForm({
+        _id: selectedBanner._id,
         title: selectedBanner.title,
+        titleEng: selectedBanner.titleEng,
         subTitle: selectedBanner.subTitle,
+        subTitleEng: selectedBanner.subTitleEng,
         description: selectedBanner.description,
-        reviewer: selectedBanner.reviewer,
-        $updatedAt: selectedBanner.$updatedAt,
-        bgImageUrl: selectedBanner.bgImageUrl,
+        descriptionEng: selectedBanner.descriptionEng,
+        bannerUrl: selectedBanner.bannerUrl,
+        createdAt: "",
       });
     }
   }, [selectedBanner]);
@@ -102,23 +105,33 @@ function TableCellViewer() {
       // console.log("UPLOAD-ERROR", error);
     }
   };
+  const clearForm = () => {
+    setForm(() => ({
+      _id: "",
+      title: "",
+      titleEng: "",
+      subTitle: "",
+      subTitleEng: "",
+      description: "",
+      descriptionEng: "",
+      bannerUrl: {
+        _type: "image",
+        asset: {
+          _ref: "reference",
+          _type: "image",
+        },
+      },
+      createdAt: "",
+    }));
+    onOpenChange();
+  };
 
   if (!selectedBanner) return null;
 
   return (
     <Drawer
       open={isOpen}
-      onOpenChange={() => {
-        setForm(() => ({
-          title: "",
-          subTitle: "",
-          description: "",
-          reviewer: "",
-          $updatedAt: "",
-          bgImageUrl: "",
-        }));
-        onOpenChange();
-      }}
+      onOpenChange={clearForm}
       direction={isMobile ? "bottom" : "right"}
     >
       <DrawerContent>
@@ -168,8 +181,8 @@ function TableCellViewer() {
                     id="date"
                     className="w-full justify-between font-normal"
                   >
-                    {form.$updatedAt
-                      ? formatDate("en", form.$updatedAt)
+                    {form.createdAt
+                      ? formatDate("en", form.createdAt)
                       : "Select date"}
                     <ChevronDownIcon />
                   </Button>
@@ -180,37 +193,18 @@ function TableCellViewer() {
                 >
                   <Calendar
                     mode="single"
-                    selected={new Date(form.$updatedAt || "")}
+                    selected={new Date(form.createdAt || "")}
                     captionLayout="dropdown"
                     onSelect={(date) => {
                       setForm({
                         ...form,
-                        $updatedAt: date?.toLocaleDateString(),
+                        createdAt: date?.toLocaleDateString(),
                       });
                       setOpen(false);
                     }}
                   />
                 </PopoverContent>
               </Popover>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
-              <Select
-                defaultValue={form?.reviewer}
-                name="reviewer"
-                value={form.reviewer}
-                onValueChange={(value) => {
-                  setForm({ ...form, reviewer: value });
-                }}
-              >
-                <SelectTrigger id="reviewer" className="w-full">
-                  <SelectValue placeholder="Select a reviewer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="no person">No Person</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
             <div className="flex flex-col gap-3">
               <label htmlFor="image-upload">Зураг сонгох</label>
@@ -230,9 +224,12 @@ function TableCellViewer() {
                   height={100}
                   className=" w-full h-full object-cover"
                 />
-              ) : form?.bgImageUrl ? (
+              ) : form?.bannerUrl ? (
                 <Avatar className="rounded-lg w-full h-52">
-                  <AvatarImage src={form.bgImageUrl} alt="preview - remote" />
+                  <AvatarImage
+                    src={form.bannerUrl.asset.url}
+                    alt="preview - remote"
+                  />
                 </Avatar>
               ) : (
                 <div className="flex items-center justify-center h-full text-sm text-muted-foreground">

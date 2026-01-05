@@ -13,84 +13,14 @@
  */
 
 // Source: schema.json
-export type News = {
+export type Article = {
   _id: string;
-  _type: "news";
+  _type: "article";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title?: string;
   titleEng?: string;
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        caption?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
-  contentEng?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        caption?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
   thumbnailUrl?: {
     asset?: {
       _ref: string;
@@ -103,6 +33,8 @@ export type News = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  content?: string;
+  contentEng?: string;
   publishedAt?: string;
 };
 
@@ -120,6 +52,123 @@ export type SanityImageHotspot = {
   y?: number;
   height?: number;
   width?: number;
+};
+
+export type News = {
+  _id: string;
+  _type: "news";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  titleEng?: string;
+  thumbnailUrl?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  content?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }
+  >;
+  contentEng?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }
+  >;
+  publishedAt?: string;
+};
+
+export type Banner = {
+  _id: string;
+  _type: "banner";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  titleEng?: string;
+  subTitle?: string;
+  subTitleEng?: string;
+  description?: string;
+  descriptionEng?: string;
+  bannerUrl?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 };
 
 export type SanityImagePaletteSwatch = {
@@ -225,9 +274,11 @@ export type Slug = {
 };
 
 export type AllSanitySchemaTypes =
-  | News
+  | Article
   | SanityImageCrop
   | SanityImageHotspot
+  | News
+  | Banner
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -238,6 +289,26 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ./src/lib/sanity/queries/banner.ts
+// Variable: ALL_BANNERS_QUERY
+// Query: *[  _type == "banner"] | order(title asc) {  _id,  title,  titleEng,  subTitle,  subTitleEng,  description,  descriptionEng,  "bannerUrl": bannerUrl{    asset->{      _id,      url    },    hotspot  }}
+export type ALL_BANNERS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  titleEng: string | null;
+  subTitle: string | null;
+  subTitleEng: string | null;
+  description: string | null;
+  descriptionEng: string | null;
+  bannerUrl: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    hotspot: SanityImageHotspot | null;
+  } | null;
+}>;
+
 // Source: ./src/lib/sanity/queries/news.ts
 // Variable: ALL_NEWS_QUERY
 // Query: *[  _type == "news"] | order(publishedAt asc) {  _id,  title,  titleEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },    hotspot  }}
@@ -268,7 +339,7 @@ export type NEWS_QUERY_BY_IDResult = {
           _type: "span";
           _key: string;
         }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
         listItem?: "bullet" | "number";
         markDefs?: Array<{
           href?: string;
@@ -290,7 +361,6 @@ export type NEWS_QUERY_BY_IDResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         alt?: string;
-        caption?: string;
         _type: "image";
         _key: string;
       }
@@ -303,7 +373,7 @@ export type NEWS_QUERY_BY_IDResult = {
           _type: "span";
           _key: string;
         }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "normal";
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
         listItem?: "bullet" | "number";
         markDefs?: Array<{
           href?: string;
@@ -325,7 +395,6 @@ export type NEWS_QUERY_BY_IDResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         alt?: string;
-        caption?: string;
         _type: "image";
         _key: string;
       }
@@ -339,12 +408,31 @@ export type NEWS_QUERY_BY_IDResult = {
     hotspot: SanityImageHotspot | null;
   } | null;
 } | null;
+// Variable: ALL_ARTICLE_QUERY
+// Query: *[  _type == "article"] | order(publishedAt asc) {  _id,  title,  titleEng,  content,  contentEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },    hotspot  }}
+export type ALL_ARTICLE_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  titleEng: string | null;
+  content: string | null;
+  contentEng: string | null;
+  publishedAt: string | null;
+  thumbnailUrl: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    hotspot: SanityImageHotspot | null;
+  } | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    '*[\n  _type == "banner"\n] | order(title asc) {\n  _id,\n  title,\n  titleEng,\n  subTitle,\n  subTitleEng,\n  description,\n  descriptionEng,\n  "bannerUrl": bannerUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_BANNERS_QUERYResult;
     '*[\n  _type == "news"\n] | order(publishedAt asc) {\n  _id,\n  title,\n  titleEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_NEWS_QUERYResult;
     '*[\n  _type == "news"\n  && _id == $_id\n][0] {\n  "_id": _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': NEWS_QUERY_BY_IDResult;
+    '*[\n  _type == "article"\n] | order(publishedAt asc) {\n  _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_ARTICLE_QUERYResult;
   }
 }

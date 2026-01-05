@@ -1,6 +1,8 @@
 import { type SchemaTypeDefinition } from "sanity";
-import newsType from "./newsType";
+import { bannerType } from "./bannerTypes";
+import { newsType } from "./newsType";
+import { articleType } from "./articleType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [newsType],
+  types: [bannerType, newsType, articleType],
 };

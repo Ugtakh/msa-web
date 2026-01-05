@@ -7,19 +7,19 @@ import MembershipSection from "@/components/MembershipSection";
 import NewsSection from "@/components/NewsSection";
 import OurServices from "@/components/OurServices";
 import PartnerMarquee from "@/components/PartnerMarquee";
-import { ALL_NEWS_QUERY, NEWS_QUERY_BY_ID } from "@/lib/sanity/queries/news";
+import { ALL_BANNERS_QUERY } from "@/lib/sanity/queries/banner";
+import { ALL_NEWS_QUERY } from "@/lib/sanity/queries/news";
 import { sanityFetch } from "@/sanity/lib/live";
-// import { databases } from "@/lib/appwrite/client";
+import { ALL_BANNERS_QUERYResult } from "../../sanity.types";
 
 export default async function Home() {
-  // const datas = databases.createDocument;
   const { data: news } = await sanityFetch({ query: ALL_NEWS_QUERY });
-  // console.log(news);
+  const { data: banners } = await sanityFetch({ query: ALL_BANNERS_QUERY });
 
   return (
     <main>
       <Navbar />
-      <HeroSection />
+      <HeroSection banners={banners as ALL_BANNERS_QUERYResult} />
       <AboutSection />
       <PartnerMarquee />
       <OurServices />
