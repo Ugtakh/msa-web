@@ -58,6 +58,16 @@ export const bannerType = defineType({
         rule.required().error("At least one image is required"),
       ],
     }),
+    defineField({
+      name: "publishedAt",
+      title: "Published at",
+      type: "datetime",
+      description: "When the news was published",
+      initialValue: () => new Date().toISOString(),
+      validation: (rule) => [
+        rule.required().error("Published date is required"),
+      ],
+    }),
   ],
   preview: {
     select: {

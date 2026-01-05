@@ -12,8 +12,6 @@ type PropsType = {
 };
 
 export function OverviewCard({ label, data, Icon, iconClassName }: PropsType) {
-  const isDecreasing = data.growthRate < 0;
-
   return (
     <Card className="rounded-[10px] bg-white py-6 shadow-1 dark:bg-gray-dark">
       <CardContent>

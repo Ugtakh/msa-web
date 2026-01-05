@@ -1,5 +1,5 @@
-@import '../styles/_variables.scss';
-@import '../styles/_keyframe-animations.scss';
+@import "../styles/_variables.scss";
+@import "../styles/_keyframe-animations.scss";
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -58,7 +58,7 @@
   --card-foreground: oklch(0.2064 0.0388 265.55);
   --popover: oklch(0.9259 0.0128 255.03);
   --popover-foreground: oklch(0.2064 0.0388 265.55);
-  --primary: oklch(0.5987 0.219351 259.0395);
+  --primary: rgb(22, 119, 255);
   --primary-foreground: oklch(0.9767 0.0127 236.62);
   --secondary: oklch(0.2727 0.1321 262.57);
   --secondary-foreground: oklch(0.9838 0.0035 247.86);

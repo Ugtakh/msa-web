@@ -1,5 +1,6 @@
 "use client";
 
+import { updateNewsById } from "@/actions/news";
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,8 +12,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useClient } from "@sanity/sdk-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useTransition, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const EditPage = () => {
   const router = useRouter();
@@ -24,9 +26,7 @@ const EditPage = () => {
   );
   const [content, setContent] = useState<any>(news?.content);
   const [contentEng, setContentEng] = useState<any>(news?.contentEng);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const client = useClient({ apiVersion: "2024-01-01" });
+  const [isSubmitting, startTransition] = useTransition();
 
   const form = useForm<NewsType>({
     resolver: zodResolver(newsSchema),
@@ -47,45 +47,36 @@ const EditPage = () => {
   };
 
   const handleContentChange = useCallback((value: any) => {
-    console.log("DATA", value);
     setContent(value);
   }, []);
 
   const handleContentEngChange = useCallback((value: any) => {
-    console.log("DATAENG", value);
     setContentEng(value);
   }, []);
 
   const onSubmit = async (data: NewsType) => {
     console.log(imageFile, preview);
     try {
-      setIsSubmitting(true);
-
-      // // 2️⃣ Мэдээ үүсгэх
-      const updateDoc = {
-        _type: "article",
-        _id: news?._id,
-        title: data.title,
-        titleEng: data.titleEng,
-        thumbnailUrl: {
-          asset: news?.thumbnailUrl?.asset,
-        },
-        content: content,
-        contentEng: contentEng,
-        publishedAt: data.publishedAt,
-      };
-
-      console.log("Мэдээ үүсгэж байна:", updateDoc);
-      const result = await client.patch(news?._id!).set(updateDoc).commit();
-      //   console.log("Мэдээ амжилттай шинэчлэгдлээ", result);
-
-      alert("Мэдээ амжилттай шинэчлэгдлээ!");
-      router.push("/admin/news");
+      startTransition(async () => {
+        const updateDoc = {
+          _type: "article",
+          _id: news?._id,
+          title: data.title,
+          titleEng: data.titleEng,
+          thumbnailUrl: {
+            asset: news?.thumbnailUrl?.asset,
+          },
+          content: content,
+          contentEng: contentEng,
+          publishedAt: data.publishedAt,
+        };
+        const id = news?._id!;
+        await updateNewsById(id, updateDoc, imageFile);
+        toast.success("Мэдээ амжилттай шинэчлэгдлээ!");
+        router.push("/admin/news");
+      });
     } catch (error) {
-      console.error("Алдаа гарлаа:", error);
-      alert("Алдаа гарлаа: " + (error as Error).message);
-    } finally {
-      setIsSubmitting(false);
+      toast.error((error as Error).message);
     }
   };
 

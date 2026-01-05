@@ -37,10 +37,10 @@ export default function Sidebar() {
         open ? "w-64" : "w-16"
       } flex flex-col`}
     >
-      <div className="flex items-center justify-center px-4 py-3 border-b">
+      <div className="flex items-center h-15 justify-center px-4 py-3 border-b">
         {open && (
           <div className="flex justify-center flex-1 font-bold text-center">
-            <Image src={msaLogo} alt="logo" width={60} height={60} />
+            <Image src={msaLogo} alt="logo" width={50} height={50} />
             {/* <span className=" text-secondary text-sm">
               Монголын Автомажуулалтын Нийгэмлэг
             </span> */}

@@ -5,14 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { useClient } from "@sanity/sdk-react";
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { newsSchema, NewsType } from "@/lib/schemas";
+import { toast } from "sonner";
+import { createNews } from "@/actions/news";
 
 export default function NewNewsPage() {
   const router = useRouter();
@@ -20,9 +21,7 @@ export default function NewNewsPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [content, setContent] = useState<any>(null);
   const [contentEng, setContentEng] = useState<any>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const client = useClient({ apiVersion: "2024-01-01" });
+  const [isSubmitting, startTransition] = useTransition();
 
   const form = useForm<NewsType>({
     resolver: zodResolver(newsSchema),
@@ -43,40 +42,24 @@ export default function NewNewsPage() {
   };
 
   const handleContentChange = useCallback((value: any) => {
-    console.log("DATA", value);
     setContent(value);
   }, []);
 
   const handleContentEngChange = useCallback((value: any) => {
-    console.log("DATAENG", value);
     setContentEng(value);
   }, []);
 
   const onSubmit = async (data: NewsType) => {
     try {
-      // Validation
       if (!imageFile) {
-        // alert("Зураг заавал оруулна уу");
+        toast.error("Зураг заавал оруулна уу");
         return;
       }
 
       if (!content || content.length === 0) {
-        // alert("Монгол контент заавал оруулна уу");
+        toast.error("Монгол контент заавал оруулна уу");
         return;
       }
-
-      setIsSubmitting(true);
-
-      // 1️⃣ Upload зураг
-      console.log("Зураг upload хийж байна...", data);
-      console.log("Content", JSON.stringify(content));
-      console.log("Content eng", contentEng);
-      const asset = await client.assets.upload("image", imageFile, {
-        filename: imageFile.name,
-      });
-      // console.log("Зураг амжилттай upload хийгдлээ:", asset._id);
-
-      // // 2️⃣ Мэдээ үүсгэх
       const newsDoc = {
         _type: "article",
         title: data.title,
@@ -85,25 +68,20 @@ export default function NewNewsPage() {
           _type: "image",
           asset: {
             _type: "reference",
-            _ref: asset._id,
+            _ref: "",
           },
         },
         content: content,
         contentEng: contentEng,
         publishedAt: data.publishedAt,
       };
-
-      console.log("Мэдээ үүсгэж байна:", newsDoc);
-      const result = await client.create(newsDoc);
-      console.log("Мэдээ амжилттай үүсгэгдлээ:", result);
-
-      alert("Мэдээ амжилттай нэмэгдлээ!");
-      router.push("/admin/news");
+      startTransition(async () => {
+        await createNews(newsDoc, imageFile);
+        toast.success("Мэдээ амжилттай нэмэгдлээ!");
+        router.push("/admin/news");
+      });
     } catch (error) {
-      console.error("Алдаа гарлаа:", error);
-      alert("Алдаа гарлаа: " + (error as Error).message);
-    } finally {
-      setIsSubmitting(false);
+      toast.error((error as Error).message);
     }
   };
 

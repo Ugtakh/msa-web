@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,13 +10,20 @@ import {
 import { ChevronUpIcon, LogOutIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useCurrentUser, useLogOut } from "@sanity/sdk-react";
+import { getUser, signOut } from "@/actions/auth";
 
 export function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
-  const USER = useCurrentUser();
-  const logOut = useLogOut();
+  const currentUser = async () => {
+    const u = await getUser();
+    setUser(u);
+  };
+
+  useEffect(() => {
+    currentUser();
+  }, []);
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -33,9 +40,8 @@ export function UserInfo() {
             height={200}
           /> */}
           <Avatar>
-            <AvatarImage src={USER?.profileImage} />
-            <AvatarFallback className="bg-primary text-white">
-              {USER?.name.substring(0, 1)}
+            <AvatarFallback className="bg-primary text-white text-sm">
+              {user?.email.toUpperCase().substring(0, 2)}
             </AvatarFallback>
           </Avatar>
           <figcaption className="flex items-center gap-1 font-medium text-dark dark:text-dark-6 max-[1024px]:sr-only">
@@ -59,18 +65,15 @@ export function UserInfo() {
 
         <figure className="flex items-center gap-2.5 px-5 py-3.5">
           <Avatar>
-            <AvatarImage src={USER?.profileImage} />
-            <AvatarFallback className="bg-primary text-white">
-              {USER?.email.substring(0, 1)}
+            <AvatarFallback className="bg-primary text-white text-sm">
+              {user?.email.toUpperCase().substring(0, 2)}
             </AvatarFallback>
           </Avatar>
 
           <figcaption className="space-y-1 text-base font-medium">
-            <div className="mb-2 leading-none text-dark dark:text-white">
-              {USER?.name}
+            <div className="text-sm mb-2 leading-none text-dark dark:text-white">
+              {user?.email}
             </div>
-
-            <div className="leading-none text-gray-6">{USER?.email}</div>
           </figcaption>
         </figure>
 
@@ -82,7 +85,7 @@ export function UserInfo() {
             className="flex w-full items-center gap-2.5 hover:cursor-pointer"
             onClick={async () => {
               setIsOpen(false);
-              await logOut();
+              await signOut();
             }}
           >
             <LogOutIcon />

@@ -13,11 +13,11 @@ export const ALL_BANNERS_QUERY = defineQuery(`*[
   subTitleEng,
   description,
   descriptionEng,
+  publishedAt,
   "bannerUrl": bannerUrl{
     asset->{
       _id,
       url
     },
-    hotspot
   }
 }`);

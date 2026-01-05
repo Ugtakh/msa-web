@@ -6,10 +6,9 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLocale, useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
 import { Calendar, ArrowRight, Loader2 } from "lucide-react";
 import { formatDate } from "@/lib/format-date";
-import { type ALL_NEWS_QUERYResult } from "../../../sanity.types";
+import { ALL_NEWS_QUERYResult } from "../../../../sanity.types";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,56 +74,6 @@ const NewsSection = ({ news }: NewsProps) => {
     };
     return labels[category];
   };
-
-  const staticNews = [
-    {
-      id: "1",
-      title: {
-        en: "Annual Automation Conference 2024",
-        mn: "2025 оны Жилийн Автоматжуулалтын Хурал",
-      },
-      excerpt: {
-        en: "Join us for the biggest automation event of the year featuring industry leaders and cutting-edge technology demonstrations.",
-        mn: "Салбарын тэргүүлэгчид болон дэвшилтэт технологийн үзүүлбэрүүдийг багтаасан жилийн хамгийн том автоматжуулалтын арга хэмжээнд нэгдээрэй.",
-      },
-      published_at: "2025-12-15",
-      category: "event" as NewsCategory,
-      image_url:
-        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop",
-    },
-    {
-      id: "2",
-      title: {
-        en: "New ISO Standards in Automation",
-        mn: "Автоматжуулалтын шинэ ISO стандартууд",
-      },
-      excerpt: {
-        en: "Learn about the latest ISO standards in automation and how to implement them in your organization.",
-        mn: "Автоматжуулалтын шинэ ISO стандартуудыг таниж, тэдгээрийг байгуулалтад хэрхэн хэрэглэх талаар мэдэх боломжтой.",
-      },
-      published_at: "2025-12-10",
-      category: "workshop" as NewsCategory,
-      image_url:
-        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=300&fit=crop",
-    },
-    {
-      id: "3",
-      title: {
-        en: "MSA Partners with Ministry of Industry",
-        mn: "МСА Үйлдвэрийн Яамтай Хамтран Ажиллана",
-      },
-      excerpt: {
-        en: "MSA signs new cooperation agreement with the Ministry of Industry to advance automation education nationwide.",
-        mn: "МСА Үйлдвэрийн Яамтай хамтран ажиллаж, автоматжуулалтын боловсролыг нийтлэгийн түвшинд хөгжүүлэх шинэ хамтран ажиллагааны хэлэлцүүлгийг гүйцэтгэнэ.",
-      },
-      published_at: "2025-12-05",
-      category: "news" as NewsCategory,
-      image_url:
-        "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop",
-    },
-  ];
-
-  const displayArticles = articles.length > 0 ? articles : staticNews;
 
   return (
     <section ref={sectionRef} id="news" className="py-24 bg-card">

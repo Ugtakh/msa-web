@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { SanityImageHotspot } from "../../../sanity.types";
 
-type NewsType = {
+export type NewsType = {
   _id?: string;
   title: string | null;
   titleEng: string | null;

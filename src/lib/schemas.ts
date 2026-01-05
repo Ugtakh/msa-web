@@ -26,7 +26,7 @@ export const contactSchema = z.object({
 });
 
 export const bannerSchema = z.object({
-  _id: z.string().optional(),
+  _id: z.string(),
   title: z
     .string()
     .min(1, "Гарчиг заавал оруулна")
@@ -52,14 +52,12 @@ export const bannerSchema = z.object({
     .min(1, "Тайлбар англиар заавал оруулна")
     .max(255, "Тайлбар 255 тэмдэгтээс хэтэрч болохгүй"),
   bannerUrl: z.object({
-    _type: z.string(),
     asset: z.object({
-      _type: z.string(),
-      _ref: z.string(),
-      url: z.string().optional(),
+      _id: z.string().optional(),
+      url: z.string(),
     }),
   }),
-  createdAt: z.string().optional(),
+  publishedAt: z.string().min(1, "Огноо заавал оруулна"),
 });
 
 export const standardSchema = z.object({

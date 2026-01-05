@@ -1,15 +1,12 @@
 import {
-  BoxIcon,
   Building2Icon,
-  DollarSign,
   NewspaperIcon,
   NotebookIcon,
-  UsersIcon,
   ViewIcon,
 } from "lucide-react";
 import { OverviewCard } from "./_components/Card";
 
-export async function OverviewCardsGroup() {
+export function OverviewCardsGroup() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-4 2xl:gap-6">
       <OverviewCard

@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@/lib/format-date";
-import { useNews } from "@/lib/store/news-store";
+import { NewsType, useNews } from "@/lib/store/news-store";
 import { ArrowRight, Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export function NewsCard({ newsItem }: NewsCardProps) {
   const editNews = useNews((state) => state.editNews);
 
   const handleNews = () => {
-    editNews(newsItem);
+    editNews(newsItem as NewsType);
   };
 
   return (

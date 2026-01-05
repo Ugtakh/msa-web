@@ -7,8 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { BannerType } from "@/lib/schemas";
-import { ALL_BANNERS_QUERYResult } from "../../../sanity.types";
+import { ALL_BANNERS_QUERYResult } from "../../../../sanity.types";
 
 const HeroSection = ({ banners }: { banners: ALL_BANNERS_QUERYResult }) => {
   const locale = useLocale();

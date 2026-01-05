@@ -1,14 +1,12 @@
-import { Suspense } from "react";
-import BannerTableSkeleton from "./_components/BannerSkeleton";
 import BannerTable from "./_components/BannerTable";
 
-const BannerPage = async () => {
+const BannerPage = () => {
   return (
     <div className="@container/main flex flex-1 flex-col gap-2">
       <div className="flex flex-col gap-6 p-6">
-        <Suspense fallback={<BannerTableSkeleton />}>
-          <BannerTable />
-        </Suspense>
+        {/* <Suspense fallback={<Loader className="animate-spin" />}> */}
+        <BannerTable />
+        {/* </Suspense> */}
       </div>
     </div>
   );
