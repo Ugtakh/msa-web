@@ -9,10 +9,9 @@ import { Label } from "@/components/ui/label";
 import { newsSchema, NewsType } from "@/lib/schemas";
 import { useNews } from "@/lib/store/news-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useClient } from "@sanity/sdk-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useTransition, useCallback, useState } from "react";
+import { useTransition, useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -24,8 +23,10 @@ const EditPage = () => {
   const [preview, setPreview] = useState<string | null>(
     news?.thumbnailUrl?.asset?.url || null
   );
-  const [content, setContent] = useState<any>(news?.content);
-  const [contentEng, setContentEng] = useState<any>(news?.contentEng);
+  const [content, setContent] = useState<any>(JSON.parse(news?.content));
+  const [contentEng, setContentEng] = useState<any>(
+    JSON.parse(news?.contentEng)
+  );
   const [isSubmitting, startTransition] = useTransition();
 
   const form = useForm<NewsType>({
@@ -55,19 +56,18 @@ const EditPage = () => {
   }, []);
 
   const onSubmit = async (data: NewsType) => {
-    console.log(imageFile, preview);
     try {
       startTransition(async () => {
         const updateDoc = {
-          _type: "article",
+          _type: "news",
           _id: news?._id,
           title: data.title,
           titleEng: data.titleEng,
           thumbnailUrl: {
             asset: news?.thumbnailUrl?.asset,
           },
-          content: content,
-          contentEng: contentEng,
+          content: JSON.stringify(content),
+          contentEng: JSON.stringify(contentEng),
           publishedAt: data.publishedAt,
         };
         const id = news?._id!;
@@ -79,6 +79,13 @@ const EditPage = () => {
       toast.error((error as Error).message);
     }
   };
+
+  useEffect(() => {
+    if (news?.publishedAt) {
+      const formatted = news.publishedAt.slice(0, 10);
+      form.setValue("publishedAt", formatted);
+    }
+  }, [news, form.setValue]);
 
   return (
     <div className="container max-w-5xl mx-auto py-8 px-4">
@@ -155,7 +162,7 @@ const EditPage = () => {
               <Label htmlFor="content">
                 Контент (Монгол) <span className="text-red-500">*</span>
               </Label>
-              <div className="flex flex-col border max-h-96 overflow-y-auto">
+              <div className="flex flex-col border max-h-150 overflow-y-auto">
                 {/* <BlockEditor value={content} onChange={handleContentChange} /> */}
                 <SimpleEditor
                   content={content}
@@ -169,7 +176,7 @@ const EditPage = () => {
               <Label htmlFor="content">
                 Контент (Англи) <span className="text-red-500">*</span>
               </Label>
-              <div className="flex flex-col border max-h-96 overflow-y-auto">
+              <div className="flex flex-col border max-h-150 overflow-y-auto">
                 {/* <BlockEditor value={content} onChange={handleContentChange} /> */}
                 <SimpleEditor
                   content={contentEng}

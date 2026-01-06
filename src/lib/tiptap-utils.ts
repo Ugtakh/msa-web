@@ -12,7 +12,7 @@ import {
   type Editor,
   type NodeWithPos,
 } from "@tiptap/react";
-import { uploadImage } from "./uploadImage";
+import { uploadImage } from "./general-functions";
 
 export const MAX_FILE_SIZE = 1 * 1024 * 1024; // 5MB
 
@@ -369,7 +369,6 @@ export const handleImageUpload = async (
   abortSignal?: AbortSignal
 ): Promise<string> => {
   // Validate file
-  console.log("START", file);
   if (!file) {
     throw new Error("No file provided");
   }
@@ -393,7 +392,6 @@ export const handleImageUpload = async (
   }
 
   onProgress?.({ progress: 100 });
-  console.log("STOP", imgUrl);
 
   return imgUrl;
 };

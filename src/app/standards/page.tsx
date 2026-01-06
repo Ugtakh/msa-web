@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Footer from "@/components/sections/FooterSection";
 import Navbar from "@/components/Header";
-import { FileText, Search, Filter, Loader } from "lucide-react";
+import { FileText, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +15,8 @@ import { useTranslations } from "next-intl";
 import { pdfjs } from "react-pdf";
 import PdfViewer from "./PdfViewer";
 import type { StandardType } from "@/lib/schemas";
-import { getStandarts } from "@/actions/standarts";
+import { getStandards } from "@/actions/standards";
+import { ALL_STANDARDS_QUERYResult } from "../../../sanity.types";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -25,13 +25,15 @@ const Standards = () => {
   const [selectedStandard, setSelectedStandard] = useState<StandardType | null>(
     null
   );
-  const [standards, setStandarts] = useState<StandardType[] | null>(null);
+  const [standards, setStandarts] = useState<ALL_STANDARDS_QUERYResult | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
-    const { rows } = await getStandarts();
-    // console.log(rows);
-    setStandarts(rows as StandardType[]);
+    const rows = await getStandards();
+    setStandarts(rows as ALL_STANDARDS_QUERYResult);
+
     setIsLoading(false);
   };
 
@@ -87,23 +89,20 @@ const Standards = () => {
                         <FileText className="w-6 h-6 text-primary" />
                       </div>
                       <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
-                        {standard.category}
+                        {standard.name}
                       </span>
                     </div>
                     <h3 className="text-lg font-semibold text-card-foreground mb-1">
                       {standard.code}
                     </h3>
-                    <h4 className="text-base text-primary mb-2">
-                      {standard.title}
-                    </h4>
-                    <p className="text-sm text-card-foreground/70 mb-4">
-                      {standard.description}
-                    </p>
+
                     <Button
                       variant="outline"
                       size="sm"
                       className="w-full"
-                      onClick={() => setSelectedStandard(standard)}
+                      onClick={() => {
+                        // setSelectedStandard(standard);
+                      }}
                     >
                       <FileText className="w-4 h-4 mr-2" />
                       {"PDF үзэх"}

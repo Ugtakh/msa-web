@@ -1,22 +1,24 @@
 "use server";
 
+import { sanityFetch } from "@/lib/sanity/client";
+import { NEWS_QUERY_BY_IDResult } from "./../../sanity.types";
 import { NEWS_QUERY_BY_ID, ALL_ARTICLE_QUERY } from "@/lib/sanity/queries/news";
-import { sanityFetch } from "@/sanity/lib/live";
-import { ALL_ARTICLE_QUERYResult, Article } from "../../sanity.types";
-import { NewsType } from "@/lib/schemas";
-import { uploadImageSanity } from "@/lib/uploadImage";
+
+import { uploadImageSanity } from "@/lib/general-functions";
 import { writeClient } from "@/sanity/lib/client";
+import { revalidatePath } from "next/cache";
 
 export const getNewsByid = async (id: string) => {
   try {
-    const product = await sanityFetch({
+    const news = await sanityFetch({
       query: NEWS_QUERY_BY_ID,
       params: { _id: id },
+      revalidate: 120,
     });
 
-    return product.data;
+    return news;
   } catch (error) {
-    // console.error(error);
+    throw error;
   }
 };
 
@@ -24,7 +26,7 @@ export const createNews = async (news: any, imageFile: File) => {
   const asset = await uploadImageSanity(imageFile);
 
   const newsDoc = {
-    _type: "article",
+    _type: "news",
     title: news.title,
     titleEng: news.titleEng,
     thumbnailUrl: {
@@ -36,9 +38,10 @@ export const createNews = async (news: any, imageFile: File) => {
     },
     content: news.content,
     contentEng: news.contentEng,
-    publishedAt: new Date(news.publishedAt || ""),
+    publishedAt: new Date(news.publishedAt),
   };
   await writeClient.create(newsDoc);
+  revalidatePath("/admin/news");
 };
 
 export const updateNewsById = async (
@@ -57,16 +60,40 @@ export const updateNewsById = async (
     publishedAt: new Date(news.publishedAt),
   };
   await writeClient.patch(_id).set(updateDoc).commit();
+  revalidatePath("/admin/news");
+};
+
+export const createNewsNew = async (news: any, imageFile: File) => {
+  const asset = await uploadImageSanity(imageFile);
+
+  const newsDoc = {
+    _type: "news",
+    title: news.title,
+    titleEng: news.titleEng,
+    thumbnailUrl: {
+      _type: "image",
+      asset: {
+        _type: "reference",
+        _ref: asset._id,
+      },
+    },
+    content: news.content,
+    contentEng: news.contentEng,
+    publishedAt: new Date(news.publishedAt || ""),
+  };
+
+  await writeClient.create(newsDoc);
+  revalidatePath("/admin/news");
 };
 
 export const getArticles = async () => {
   try {
-    const product = await sanityFetch({
+    const news = await sanityFetch({
       query: ALL_ARTICLE_QUERY,
     });
 
-    return product.data as ALL_ARTICLE_QUERYResult;
+    return news;
   } catch (error) {
-    // console.error(error);
+    throw error;
   }
 };

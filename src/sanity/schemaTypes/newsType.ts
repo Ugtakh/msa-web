@@ -1,11 +1,11 @@
-import { ImageIcon, TextIcon } from "@sanity/icons";
+import { ImageIcon, BookIcon } from "@sanity/icons";
 import { defineField, defineType, defineArrayMember } from "sanity";
 
 export const newsType = defineType({
   name: "news",
   title: "News",
   type: "document",
-  icon: TextIcon,
+  icon: BookIcon,
   fields: [
     defineField({
       name: "title",
@@ -39,50 +39,7 @@ export const newsType = defineType({
     defineField({
       name: "content",
       title: "Content (Mongolian)",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H1", value: "h1" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "H4", value: "h4" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-            ],
-            annotations: [
-              {
-                title: "URL",
-                name: "link",
-                type: "object",
-                fields: [{ title: "URL", name: "href", type: "url" }],
-              },
-            ],
-          },
-        }),
-        defineArrayMember({
-          type: "image",
-          icon: ImageIcon,
-          options: { hotspot: true },
-          fields: [
-            {
-              name: "alt",
-              type: "string",
-              title: "Alternative text",
-            },
-          ],
-        }),
-      ],
+      type: "text",
       validation: (rule) => [
         rule.required().error("Mongolian content is required"),
       ],
@@ -90,49 +47,9 @@ export const newsType = defineType({
     defineField({
       name: "contentEng",
       title: "Content (English)",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H1", value: "h1" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "H4", value: "h4" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-            ],
-            annotations: [
-              {
-                title: "URL",
-                name: "link",
-                type: "object",
-                fields: [{ title: "URL", name: "href", type: "url" }],
-              },
-            ],
-          },
-        }),
-        defineArrayMember({
-          type: "image",
-          icon: ImageIcon,
-          options: { hotspot: true },
-          fields: [
-            {
-              name: "alt",
-              type: "string",
-              title: "Alternative text",
-            },
-          ],
-        }),
+      type: "text",
+      validation: (rule) => [
+        rule.required().error("English content is required"),
       ],
     }),
     defineField({

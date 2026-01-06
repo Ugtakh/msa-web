@@ -1,19 +1,10 @@
-import { Suspense } from "react";
+import StandardsComp from "./_components/StandardsComp";
 
 const StandartsPage = () => {
   return (
-    <div className="@container/main flex flex-1 flex-col gap-2 p-5">
-      <div className="flex flex-col gap-4 py-4">
-        <Suspense fallback={<div />}>
-          <div className="flex justify-between pb-6">
-            <h1 className="text-xl font-bold text-secondary">
-              Стандарт Мэдээлэл
-            </h1>
-            {/* <AddPartnerModal /> */}
-            {/* Modal */}
-          </div>
-          {/* <PartnerList /> */}
-        </Suspense>
+    <div className="@container/main flex flex-1 flex-col gap-2">
+      <div className="flex flex-col gap-6 p-6">
+        <StandardsComp />
       </div>
     </div>
   );

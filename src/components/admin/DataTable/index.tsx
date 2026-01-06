@@ -132,7 +132,6 @@ const columns: ColumnDef<BannerType>[] = [
     accessorKey: "publishedAt",
     header: () => <div className="w-full text-left">Огноо</div>,
     cell: ({ row }) => {
-      console.log("F", row.original.publishedAt);
       return <div>{formatDate("en", row.original.publishedAt)}</div>;
     },
   },
@@ -167,7 +166,6 @@ const columns: ColumnDef<BannerType>[] = [
             <DropdownMenuItem
               variant="destructive"
               onSelect={async () => {
-                console.log(row.original._id);
                 await deleteBannerById(row.original._id);
                 toast.success("Баннер амжилттай устлаа");
               }}

@@ -13,8 +13,8 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { getNewsByid } from "@/actions/news";
 import { NEWS_QUERY_BY_IDResult } from "../../../../sanity.types";
-import { PortableText } from "@portabletext/react";
-import PtComponents from "@/components/PtComponents";
+import { toast } from "sonner";
+import { convertToHTML } from "@/lib/general-functions";
 
 type NewsCategory = "news" | "event" | "workshop" | "announcement";
 
@@ -22,9 +22,8 @@ const NewsDetail = () => {
   const t = useTranslations("news");
   const { id } = useParams<{ id: string }>();
 
-  const [article, setArticle] = useState<NEWS_QUERY_BY_IDResult | undefined>(
-    undefined
-  );
+  const [article, setArticle] = useState<any>(null);
+  const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -39,7 +38,13 @@ const NewsDetail = () => {
   };
   const fetchArticle = async () => {
     const news = await getNewsByid(id);
-    setArticle(news);
+    if (!news) {
+      toast.error("Мэдээ олдсонгүй");
+      return;
+    }
+    const con = await convertToHTML(JSON.parse(news.content ?? ""));
+    setArticle(() => news);
+    setContent(() => con);
     setLoading(false);
   };
 
@@ -98,7 +103,6 @@ const NewsDetail = () => {
               {"Мэдээ рүү буцах"}
             </Link>
 
-            {/* Category Badge */}
             <Badge className="h-fit">{getCategoryLabel("news")}</Badge>
           </div>
           {/* Title */}
@@ -119,29 +123,20 @@ const NewsDetail = () => {
             </time>
           </div>
 
-          {/* Featured Image */}
-          {article.thumbnailUrl?.asset?.url && (
-            <div className="mb-8 rounded-xl overflow-hidden text-center">
-              <Image
-                src={article.thumbnailUrl?.asset?.url}
-                width={800}
-                height={700}
-                alt={article.title || "preview"}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          )}
+          <div
+            className="[&_img]:mx-auto [&_img]:block [&_img]:max-w-full [&_img]:py-3 
+            [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:py-4 [&_h1]:text-gray-900 
+            [&_h2]:text-xl [&_h2]:font-bold [&_h2]:py-4 [&_h2]:text-gray-900 
+            [&_h3]:text-lg [&_h3]:font-bold [&_h3]:py-4 [&_h3]:text-gray-900
+            [&_h4]:text-base [&_h4]:font-bold [&_h4]:py-4 [&_h4]:text-gray-900
+            [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-4
+            [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-4
+            [&_li]:mb-1 [&_li]:ml-5
+            [&_ul.contains-task-list]:list-none [&_ul.contains-task-list]:ml-0
+            [&_p]:mb-4"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
 
-          {/* Excerpt */}
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            {article.title}
-          </p>
-
-          {/* Content */}
-          {/* <div dangerouslySetInnerHTML={{ __html: article.content || "" }} /> */}
-          <PortableText components={PtComponents} value={article.content!} />
-
-          {/* Share / Back */}
           <div className="mt-12 pt-8 border-t border-border">
             <Button asChild variant="outline">
               <Link href="/#news">

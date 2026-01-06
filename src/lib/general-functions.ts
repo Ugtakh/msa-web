@@ -58,6 +58,26 @@ export const uploadImageSanity = async (file: File) => {
   }
 };
 
+export const uploadPdfSanity = async (file: File) => {
+  try {
+    const pdfAsset = await writeClient.assets.upload("file", file, {
+      filename: file.name,
+      contentType: file.type,
+    });
+
+    return pdfAsset;
+  } catch (error: any) {
+    console.error("Sanity Upload Error:", error);
+    // Project user not found алдаа гарвал Token эсвэл Project ID-г шалгахыг сануулна
+    if (error.message.includes("project user not found")) {
+      throw new Error(
+        "Sanity Authentication Failed: Check your Write Token permissions."
+      );
+    }
+    throw new Error(error.message || "An error occurred during image upload.");
+  }
+};
+
 export const saveEditorContent = async (
   contentId: string,
   jsonContent: any

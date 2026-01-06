@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,44 +18,39 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import noLogo from "@/assets/images/no-logo.png";
-import { createPartner } from "@/actions/partners";
+import { createStandard } from "@/actions/standards";
 
-export function AddPartnerModal() {
+export function AddStandardModal() {
   const [open, setOpen] = useState(false);
   const [isLoading, startTransition] = useTransition();
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [name, setName] = useState<string>("");
   const [nameEng, setNameEng] = useState<string>("");
-  const [preview, setPreview] = useState<string>("");
+  const [code, setCode] = useState<string>("");
   const router = useRouter();
 
-  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
-    setImageFile(selectedFile);
+    setPdfFile(selectedFile);
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!name || !imageFile) {
-      toast.error("Нэр болон логог заавал оруулна");
+    if (!name || !pdfFile) {
+      toast.error("Нэр болон PDF файлыг заавал оруулна");
       return;
     }
 
     startTransition(async () => {
       try {
         // await new Promise((r) => setTimeout(r, 3000));
-        await createPartner(name, nameEng, imageFile);
+        await createStandard(name, pdfFile);
         router.refresh();
         toast.success("Амжилттай хадгалагдлаа");
-        setPreview("");
         setName("");
-        setNameEng("");
-        setImageFile(null);
+        setPdfFile(null);
         setOpen(false);
       } catch (error) {
         toast.error("Алдаа гарлаа дахин оролдоно уу");
@@ -71,9 +65,7 @@ export function AddPartnerModal() {
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle className="text-secondary">
-            Хамтрагч байгууллага нэмэх
-          </DialogTitle>
+          <DialogTitle className="text-secondary">Стандарт нэмэх</DialogTitle>
           <DialogDescription className="text-secondary">
             Талбаруудыг бүгдийг бөглөнө.
           </DialogDescription>
@@ -87,36 +79,37 @@ export function AddPartnerModal() {
               <Label htmlFor="name">Нэр</Label>
               <Input
                 id="name"
-                placeholder="Байгууллагын нэр"
+                placeholder="Стандартын нэр"
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="name">Нэр (англи)</Label>
+              <Label htmlFor="name">Нэр (Англи)</Label>
               <Input
                 id="name"
-                placeholder="Байгууллагын нэр (англи)"
+                placeholder="Стандартын нэр (англи)"
                 onChange={(e) => setNameEng(e.target.value)}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="name">Стандарт код</Label>
+              <Input
+                id="name"
+                placeholder="Стандартын код"
+                onChange={(e) => setCode(e.target.value)}
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="logo">Лого</Label>
+              <Label htmlFor="pdf">PDF файл</Label>
               <Input
-                id="logo"
+                id="pdf"
                 type="file"
-                accept="image/*"
+                accept="application/pdf"
                 onChange={onFileChange}
               />
-              <div className="flex justify-center items-center  w-full h-50">
-                <Avatar className=" w-40 h-40">
-                  <AvatarImage
-                    src={preview || noLogo.src}
-                    alt="@shadcn"
-                    className="object-cover"
-                  />
-                  <AvatarFallback>NO-LOGO</AvatarFallback>
-                </Avatar>
+              <div className="text-sm text-muted-foreground">
+                {pdfFile ? pdfFile.name : "Файл сонгогдоогүй"}
               </div>
             </div>
           </div>
@@ -124,7 +117,8 @@ export function AddPartnerModal() {
             <DialogClose
               asChild
               onClick={() => {
-                setPreview("");
+                setName("");
+                setPdfFile(null);
               }}
             >
               <Button

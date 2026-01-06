@@ -23,7 +23,6 @@ export default function RichTextEditor() {
     autofocus: true,
     immediatelyRender: true,
     onUpdate: ({ editor }) => {
-      console.log("OUT", editor.getJSON());
       setValue(editor.getJSON());
     },
   });

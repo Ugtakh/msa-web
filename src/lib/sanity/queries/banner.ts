@@ -5,7 +5,7 @@ import { defineQuery } from "next-sanity";
  */
 export const ALL_BANNERS_QUERY = defineQuery(`*[
   _type == "banner"
-] | order(title asc) {
+] | order(publishedAt desc) {
   _id,
   title,
   titleEng,

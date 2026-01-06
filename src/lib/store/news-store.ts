@@ -5,8 +5,8 @@ export type NewsType = {
   _id?: string;
   title: string | null;
   titleEng: string | null;
-  content: string | null;
-  contentEng: string | null;
+  content: any;
+  contentEng: any;
   publishedAt: string | null;
   thumbnailUrl: {
     asset: {

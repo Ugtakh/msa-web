@@ -4,9 +4,10 @@ import { writeClient } from "@/sanity/lib/client";
 import { createSessionClient } from "@/lib/appwrite/client";
 import { getPreviewUrl } from "@/lib/getPreviewUrl";
 import { BannerType } from "@/lib/schemas";
-import { uploadImageSanity } from "@/lib/uploadImage";
+import { uploadImageSanity } from "@/lib/general-functions";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ALL_BANNERS_QUERY } from "@/lib/sanity/queries/banner";
+import { revalidatePath } from "next/cache";
 
 export const getBanners = async () => {
   const { data: banners } = await sanityFetch({ query: ALL_BANNERS_QUERY });
@@ -35,6 +36,7 @@ export const createBanner = async (banner: BannerType, imageFile: File) => {
     publishedAt: new Date(banner.publishedAt),
   };
   await writeClient.create(newBanner);
+  revalidatePath("/admin/banners");
 };
 
 export const updateBannerById = async (
@@ -53,11 +55,12 @@ export const updateBannerById = async (
     publishedAt: new Date(banner.publishedAt),
   };
 
-  const ud = await writeClient.patch(_id).set(updatedNew).commit();
+  await writeClient.patch(_id).set(updatedNew).commit();
+  revalidatePath("/admin/banners");
 };
 export const deleteBannerById = async (_id: string) => {
-  const ud = await writeClient.delete(_id);
-  console.log("DD", ud);
+  await writeClient.delete(_id);
+  revalidatePath("/admin/banners");
 };
 
 export const uploadBannerImage = async (formData: FormData) => {
@@ -73,7 +76,6 @@ export const uploadBannerImage = async (formData: FormData) => {
     const previewUrl = getPreviewUrl(fileId);
     return { previewUrl };
   } catch (error) {
-    console.log("UPLOAD-ERR", error);
-    return null;
+    return error;
   }
 };

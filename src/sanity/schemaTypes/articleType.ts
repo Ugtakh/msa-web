@@ -74,7 +74,7 @@ export const articleType = defineType({
           name: "content",
           type: "array",
           of: [{ type: "block" }, { type: "image" }],
-          hidden: true, // Студио дээр шууд засах боломжгүй, зөвхөн хадгалах зориулалттай
+          hidden: true,
         },
       ],
       options: {

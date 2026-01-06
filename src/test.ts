@@ -1,19 +1,17 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function proxy(request: NextRequest) {
-    const user = false
-    console.log("PROXY RUN", user)
+  const user = false;
 
-    if (!user) {
-        request.cookies.delete("session")
-        return NextResponse.redirect(new URL('/login', request.url));
-    }
+  if (!user) {
+    request.cookies.delete("session");
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
-    return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/admin/:path*']
+  matcher: ["/admin/:path*"],
 };

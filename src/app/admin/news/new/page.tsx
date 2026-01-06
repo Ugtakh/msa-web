@@ -8,7 +8,6 @@ import Image from "next/image";
 import { useState, useCallback, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { newsSchema, NewsType } from "@/lib/schemas";
@@ -28,7 +27,7 @@ export default function NewNewsPage() {
     defaultValues: {
       title: "",
       titleEng: "",
-      publishedAt: new Date().toISOString().slice(0, 16),
+      publishedAt: "",
     },
   });
 
@@ -60,22 +59,23 @@ export default function NewNewsPage() {
         toast.error("Монгол контент заавал оруулна уу");
         return;
       }
-      const newsDoc = {
-        _type: "article",
-        title: data.title,
-        titleEng: data.titleEng,
-        thumbnailUrl: {
-          _type: "image",
-          asset: {
-            _type: "reference",
-            _ref: "",
-          },
-        },
-        content: content,
-        contentEng: contentEng,
-        publishedAt: data.publishedAt,
-      };
+
       startTransition(async () => {
+        const newsDoc = {
+          _type: "news",
+          title: data.title,
+          titleEng: data.titleEng,
+          thumbnailUrl: {
+            _type: "image",
+            asset: {
+              _type: "reference",
+              _ref: "",
+            },
+          },
+          content: JSON.stringify(content),
+          contentEng: JSON.stringify(contentEng),
+          publishedAt: data.publishedAt,
+        };
         await createNews(newsDoc, imageFile);
         toast.success("Мэдээ амжилттай нэмэгдлээ!");
         router.push("/admin/news");
@@ -162,7 +162,7 @@ export default function NewNewsPage() {
               <Label htmlFor="content">
                 Контент (Монгол) <span className="text-red-500">*</span>
               </Label>
-              <div className="flex flex-col border max-h-96 overflow-y-auto">
+              <div className="flex flex-col border max-h-150 overflow-y-auto">
                 {/* <BlockEditor value={content} onChange={handleContentChange} /> */}
                 <SimpleEditor
                   content={content}
@@ -176,7 +176,7 @@ export default function NewNewsPage() {
               <Label htmlFor="content">
                 Контент (Англи) <span className="text-red-500">*</span>
               </Label>
-              <div className="flex flex-col border max-h-96 overflow-y-auto">
+              <div className="flex flex-col border max-h-150 overflow-y-auto">
                 {/* <BlockEditor value={content} onChange={handleContentChange} /> */}
                 <SimpleEditor
                   content={contentEng}

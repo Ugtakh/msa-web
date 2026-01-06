@@ -66,7 +66,6 @@ export function AddModal() {
   }, []);
 
   const onSubmit = async (data: BannerType) => {
-    console.log("D");
     if (!imageFile) {
       alert("Зураг заавал оруулна");
       return;
@@ -86,8 +85,6 @@ export function AddModal() {
     setPreview(objectUrl);
     setImageFile(selectedFile);
   };
-
-  console.log(form.formState.errors);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -214,7 +211,6 @@ export function AddModal() {
                     }
                     captionLayout="dropdown"
                     onSelect={(date) => {
-                      console.log("SD", date);
                       form.setValue(
                         "publishedAt",
                         date?.toLocaleDateString() || ""

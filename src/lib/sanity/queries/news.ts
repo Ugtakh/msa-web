@@ -6,13 +6,14 @@ export const ALL_NEWS_QUERY = defineQuery(`*[
   _id,
   title,
   titleEng,
+  content,
+  contentEng,
   publishedAt,
   "thumbnailUrl": thumbnailUrl{
     asset->{
       _id,
       url
     },
-    hotspot
   }
 }`);
 
@@ -31,12 +32,11 @@ export const NEWS_QUERY_BY_ID = defineQuery(`*[
       _id,
       url
     },
-    hotspot
   }
 }`);
 
 export const ALL_ARTICLE_QUERY = defineQuery(`*[
-  _type == "article"
+  _type == "news"
 ] | order(publishedAt desc) {
   _id,
   title,

@@ -19,7 +19,6 @@ export const signIn = async (email: string, password: string) => {
     return { status: true, userId: session.userId };
   } catch (error) {
     const er = error as AppwriteException;
-    console.log("SIGNIN-ERROR", error);
     return { status: false, error: er };
   }
 };
@@ -31,7 +30,6 @@ export const getUser = async () => {
     if (!user) throw new Error("No User");
     return user;
   } catch (error) {
-    console.log("GET-USER-ERROR", error);
     return null;
   }
 };

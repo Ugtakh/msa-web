@@ -13,6 +13,27 @@
  */
 
 // Source: schema.json
+export type Standard = {
+  _id: string;
+  _type: "standard";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  nameEng?: string;
+  code?: string;
+  standardPdf?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+};
+
 export type Partner = {
   _id: string;
   _type: "partner";
@@ -20,6 +41,7 @@ export type Partner = {
   _updatedAt: string;
   _rev: string;
   name?: string;
+  nameEng?: string;
   partnerLogo?: {
     asset?: {
       _ref: string;
@@ -181,74 +203,8 @@ export type News = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
-  contentEng?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
+  content?: string;
+  contentEng?: string;
   publishedAt?: string;
 };
 
@@ -382,6 +338,7 @@ export type Slug = {
 };
 
 export type AllSanitySchemaTypes =
+  | Standard
   | Partner
   | SanityImageCrop
   | SanityImageHotspot
@@ -400,7 +357,7 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/lib/sanity/queries/banner.ts
 // Variable: ALL_BANNERS_QUERY
-// Query: *[  _type == "banner"] | order(title asc) {  _id,  title,  titleEng,  subTitle,  subTitleEng,  description,  descriptionEng,  publishedAt,  "bannerUrl": bannerUrl{    asset->{      _id,      url    },  }}
+// Query: *[  _type == "banner"] | order(publishedAt desc) {  _id,  title,  titleEng,  subTitle,  subTitleEng,  description,  descriptionEng,  publishedAt,  "bannerUrl": bannerUrl{    asset->{      _id,      url    },  }}
 export type ALL_BANNERS_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -420,197 +377,45 @@ export type ALL_BANNERS_QUERYResult = Array<{
 
 // Source: ./src/lib/sanity/queries/news.ts
 // Variable: ALL_NEWS_QUERY
-// Query: *[  _type == "news"] | order(publishedAt asc) {  _id,  title,  titleEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },    hotspot  }}
+// Query: *[  _type == "news"] | order(publishedAt asc) {  _id,  title,  titleEng,  content,  contentEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },  }}
 export type ALL_NEWS_QUERYResult = Array<{
   _id: string;
   title: string | null;
   titleEng: string | null;
+  content: string | null;
+  contentEng: string | null;
   publishedAt: string | null;
   thumbnailUrl: {
     asset: {
       _id: string;
       url: string | null;
     } | null;
-    hotspot: SanityImageHotspot | null;
   } | null;
 }>;
 // Variable: NEWS_QUERY_BY_ID
-// Query: *[  _type == "news"  && _id == $_id][0] {  "_id": _id,  title,  titleEng,  content,  contentEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },    hotspot  }}
+// Query: *[  _type == "news"  && _id == $_id][0] {  "_id": _id,  title,  titleEng,  content,  contentEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },  }}
 export type NEWS_QUERY_BY_IDResult = {
   _id: string;
   title: string | null;
   titleEng: string | null;
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  > | null;
-  contentEng: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  > | null;
+  content: string | null;
+  contentEng: string | null;
   publishedAt: string | null;
   thumbnailUrl: {
     asset: {
       _id: string;
       url: string | null;
     } | null;
-    hotspot: SanityImageHotspot | null;
   } | null;
 } | null;
 // Variable: ALL_ARTICLE_QUERY
-// Query: *[  _type == "article"] | order(publishedAt desc) {  _id,  title,  titleEng,  content,  contentEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },    hotspot  }}
+// Query: *[  _type == "news"] | order(publishedAt desc) {  _id,  title,  titleEng,  content,  contentEng,  publishedAt,  "thumbnailUrl": thumbnailUrl{    asset->{      _id,      url    },    hotspot  }}
 export type ALL_ARTICLE_QUERYResult = Array<{
   _id: string;
   title: string | null;
   titleEng: string | null;
-  content: {
-    type?: string;
-    content?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "h5"
-            | "h6"
-            | "normal";
-          listItem?: "bullet" | "number";
-          markDefs?: Array<{
-            href?: string;
-            _type: "link";
-            _key: string;
-          }>;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }
-      | {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          _type: "image";
-          _key: string;
-        }
-    >;
-  } | null;
-  contentEng: {
-    type?: string;
-    content?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "h5"
-            | "h6"
-            | "normal";
-          listItem?: "bullet" | "number";
-          markDefs?: Array<{
-            href?: string;
-            _type: "link";
-            _key: string;
-          }>;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }
-      | {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          _type: "image";
-          _key: string;
-        }
-    >;
-  } | null;
+  content: string | null;
+  contentEng: string | null;
   publishedAt: string | null;
   thumbnailUrl: {
     asset: {
@@ -621,13 +426,45 @@ export type ALL_ARTICLE_QUERYResult = Array<{
   } | null;
 }>;
 
+// Source: ./src/lib/sanity/queries/partners.ts
+// Variable: ALL_PARTNERS_QUERY
+// Query: *[  _type == "partner"] | order(createdAt asc) {  _id,  name,  "partnerLogo": partnerLogo{    asset->{      _id,      url    },  }}
+export type ALL_PARTNERS_QUERYResult = Array<{
+  _id: string;
+  name: string | null;
+  partnerLogo: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+  } | null;
+}>;
+
+// Source: ./src/lib/sanity/queries/standards.ts
+// Variable: ALL_STANDARDS_QUERY
+// Query: *[    _type == "standard"    ] | order(cratedAt asc) {    _id,    name,    nameEng,    code,    "standardPdf":standardPdf{        asset->{        _id,        url        }    }}
+export type ALL_STANDARDS_QUERYResult = Array<{
+  _id: string;
+  name: string | null;
+  nameEng: string | null;
+  code: string | null;
+  standardPdf: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+  } | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[\n  _type == "banner"\n] | order(title asc) {\n  _id,\n  title,\n  titleEng,\n  subTitle,\n  subTitleEng,\n  description,\n  descriptionEng,\n  publishedAt,\n  "bannerUrl": bannerUrl{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_BANNERS_QUERYResult;
-    '*[\n  _type == "news"\n] | order(publishedAt asc) {\n  _id,\n  title,\n  titleEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_NEWS_QUERYResult;
-    '*[\n  _type == "news"\n  && _id == $_id\n][0] {\n  "_id": _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': NEWS_QUERY_BY_IDResult;
-    '*[\n  _type == "article"\n] | order(publishedAt desc) {\n  _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_ARTICLE_QUERYResult;
+    '*[\n  _type == "banner"\n] | order(publishedAt desc) {\n  _id,\n  title,\n  titleEng,\n  subTitle,\n  subTitleEng,\n  description,\n  descriptionEng,\n  publishedAt,\n  "bannerUrl": bannerUrl{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_BANNERS_QUERYResult;
+    '*[\n  _type == "news"\n] | order(publishedAt asc) {\n  _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_NEWS_QUERYResult;
+    '*[\n  _type == "news"\n  && _id == $_id\n][0] {\n  "_id": _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': NEWS_QUERY_BY_IDResult;
+    '*[\n  _type == "news"\n] | order(publishedAt desc) {\n  _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_ARTICLE_QUERYResult;
+    '*[\n  _type == "partner"\n] | order(createdAt asc) {\n  _id,\n  name,\n  "partnerLogo": partnerLogo{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_PARTNERS_QUERYResult;
+    '*[\n    _type == "standard"\n    ] | order(cratedAt asc) {\n    _id,\n    name,\n    nameEng,\n    code,\n    "standardPdf":standardPdf{\n        asset->{\n        _id,\n        url\n        }\n    }\n}': ALL_STANDARDS_QUERYResult;
   }
 }

@@ -23,7 +23,7 @@ export default function SignInPage() {
     startTransition(async () => {
       try {
         const result = await signIn(email, password);
-        console.log("RES", result);
+
         if (!result.status) {
           throw result.error;
         }
