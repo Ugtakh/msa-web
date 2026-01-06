@@ -30,6 +30,17 @@ export const standardType = defineType({
       ],
     }),
     defineField({
+      name: "category",
+      type: "string",
+      options: {
+        list: [
+          { title: "ISO", value: "iso" },
+          { title: "MNG", value: "mng" },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "standardPdf",
       type: "file",
       validation: (rule) => [

@@ -67,7 +67,7 @@ export function AddPartnerModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>+ нэмэх</Button>
+        <Button className="uppercase">+ нэмэх</Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
@@ -83,7 +83,7 @@ export function AddPartnerModal() {
           className="flex flex-col gap-3 text-secondary"
         >
           <div className="grid gap-3">
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="name">Нэр</Label>
               <Input
                 id="name"
@@ -91,7 +91,7 @@ export function AddPartnerModal() {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="name">Нэр (англи)</Label>
               <Input
                 id="name"

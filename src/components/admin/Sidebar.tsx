@@ -58,7 +58,7 @@ export default function Sidebar() {
               key={item.link}
               href={`${item.link}`}
               className={cn(
-                "flex items-center space-x-2 px-3 py-2 rounded transition-all duration-300 hover:bg-primary hover:text-white",
+                "flex items-center space-x-2 px-3 py-2 text-secondary rounded transition-all duration-300 hover:bg-primary hover:text-white",
                 pathName === item.link && "bg-primary text-white"
               )}
             >

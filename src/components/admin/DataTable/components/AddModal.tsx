@@ -29,8 +29,10 @@ import { formatDate } from "@/lib/format-date";
 import { ChevronDownIcon, Loader } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 export function AddModal() {
+  const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -75,6 +77,7 @@ export function AddModal() {
       form.reset();
       setIsOpen(false);
       setPreview(null);
+      router.refresh();
     });
   };
 
@@ -89,7 +92,7 @@ export function AddModal() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>+ нэмэх</Button>
+        <Button className="uppercase">+ нэмэх</Button>
       </DialogTrigger>
       <DialogContent className="bg-white h-10/12">
         <DialogHeader>
@@ -103,7 +106,7 @@ export function AddModal() {
           className="flex flex-col h-full gap-3 text-secondary overflow-hidden"
         >
           <div className="grid gap-3 h-full overflow-y-auto">
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="title">Гарчиг</Label>
               <Input
                 id="title"
@@ -116,7 +119,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="title">Гарчиг англи</Label>
               <Input
                 id="title"
@@ -129,7 +132,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="subTitle">Дэд гарчиг</Label>
               <Input
                 id="subTitle"
@@ -142,7 +145,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="subTitle">Дэд гарчиг англи</Label>
               <Input
                 id="subTitle"
@@ -155,7 +158,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="desctiption">Тайлбар</Label>
               <Textarea
                 id="description"
@@ -169,7 +172,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="descriptionEng">Тайлбар англи</Label>
               <Textarea
                 id="description"
@@ -183,7 +186,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 p-1">
               <Label htmlFor="date" className="px-1">
                 Огноо
               </Label>
@@ -226,7 +229,7 @@ export function AddModal() {
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="banner">Зураг</Label>
               <Input
                 id="banner"
@@ -270,7 +273,7 @@ export function AddModal() {
               disabled={isLoading}
             >
               {isLoading ? (
-                <span>
+                <span className="flex items-center gap-2">
                   <Loader className="animate-spin w-10, h-10" /> Хадгалж
                   байна...
                 </span>

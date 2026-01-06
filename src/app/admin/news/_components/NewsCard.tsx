@@ -47,13 +47,16 @@ export function NewsCard({ newsItem }: NewsCardProps) {
           <Calendar className="w-4 h-4 mr-2" />
           {formatDate(locale, newsItem.publishedAt)}
         </div>
-        <h3 className="text-lg font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+        <h3
+          className="text-sm'
+         font-semibold text-foreground mb-3 group-hover:text-primary transition-colors"
+        >
           {/* {item?.title[locale] || item.title.mn} */}
           {newsItem.title}
         </h3>
 
         <div className="flex items-center text-primary group-hover:translate-x-2 transition-transform">
-          <span>Learn More</span>
+          <span>Засах</span>
           <ArrowRight className="w-4 h-4 ml-2" />
         </div>
       </div>

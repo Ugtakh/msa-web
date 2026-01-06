@@ -18,7 +18,91 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { createStandard } from "@/actions/standards";
+import { cn } from "@/lib/utils";
+
+const categories = [
+  {
+    label: "MNG",
+    value: "mng",
+  },
+  {
+    label: "ISO",
+    value: "iso",
+  },
+];
+
+export function ComboboxDemo({
+  value,
+  setValue,
+  open,
+  setOpen,
+}: {
+  value: string;
+  setValue: (_value: string) => void;
+  open: boolean;
+  setOpen: (_state: boolean) => void;
+}) {
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between bg-white hover:text-secondary"
+        >
+          {value
+            ? categories.find((category) => category.value === value)?.label
+            : "Төрөл сонгох"}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        className="p-0"
+        style={{ width: "var(--radix-popover-trigger-width)" }}
+      >
+        <Command className="bg-white w-full">
+          <CommandList>
+            <CommandGroup>
+              {categories.map((category) => (
+                <CommandItem
+                  className="text-secondary hover:cursor-pointer"
+                  key={category.value}
+                  value={category.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  {category.label}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      value === category.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export function AddStandardModal() {
   const [open, setOpen] = useState(false);
@@ -27,6 +111,8 @@ export function AddStandardModal() {
   const [name, setName] = useState<string>("");
   const [nameEng, setNameEng] = useState<string>("");
   const [code, setCode] = useState<string>("");
+  const [isModal, setIsModal] = useState(false);
+  const [category, setCategory] = useState("");
   const router = useRouter();
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +132,7 @@ export function AddStandardModal() {
     startTransition(async () => {
       try {
         // await new Promise((r) => setTimeout(r, 3000));
-        await createStandard(name, pdfFile);
+        await createStandard(name, nameEng, code, category, pdfFile);
         router.refresh();
         toast.success("Амжилттай хадгалагдлаа");
         setName("");
@@ -61,7 +147,7 @@ export function AddStandardModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>+ нэмэх</Button>
+        <Button className="uppercase">+ нэмэх</Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
@@ -75,7 +161,7 @@ export function AddStandardModal() {
           className="flex flex-col gap-3 text-secondary"
         >
           <div className="grid gap-3">
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="name">Нэр</Label>
               <Input
                 id="name"
@@ -83,7 +169,7 @@ export function AddStandardModal() {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="name">Нэр (Англи)</Label>
               <Input
                 id="name"
@@ -91,7 +177,7 @@ export function AddStandardModal() {
                 onChange={(e) => setNameEng(e.target.value)}
               />
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="name">Стандарт код</Label>
               <Input
                 id="name"
@@ -99,8 +185,17 @@ export function AddStandardModal() {
                 onChange={(e) => setCode(e.target.value)}
               />
             </div>
+            <div className="grid gap-2 p-1">
+              <Label htmlFor="name">Стандарт төрөл</Label>
+              <ComboboxDemo
+                value={category}
+                setValue={setCategory}
+                open={isModal}
+                setOpen={setIsModal}
+              />
+            </div>
 
-            <div className="grid gap-2">
+            <div className="grid gap-2 p-1">
               <Label htmlFor="pdf">PDF файл</Label>
               <Input
                 id="pdf"

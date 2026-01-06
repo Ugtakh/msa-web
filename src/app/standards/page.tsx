@@ -22,9 +22,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 const Standards = () => {
   const t = useTranslations("standarts");
-  const [selectedStandard, setSelectedStandard] = useState<StandardType | null>(
-    null
-  );
+  const [selectedStandard, setSelectedStandard] = useState<
+    ALL_STANDARDS_QUERYResult[0] | null
+  >(null);
   const [standards, setStandarts] = useState<ALL_STANDARDS_QUERYResult | null>(
     null
   );
@@ -58,20 +58,6 @@ const Standards = () => {
               </p>
             </div>
 
-            {/* Search */}
-            {/* <div className="max-w-2xl mx-auto mb-12">
-              <div className="flex gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <Input placeholder={"Стандарт хайх..."} className="pl-10" />
-                </div>
-                <Button variant="outline">
-                  <Filter className="w-4 h-4 mr-2" />
-                  {"Шүүх"}
-                </Button>
-              </div>
-            </div> */}
-
             {/* Standards Grid */}
             {isLoading ? (
               <div className="flex justify-center">
@@ -93,15 +79,18 @@ const Standards = () => {
                       </span>
                     </div>
                     <h3 className="text-lg font-semibold text-card-foreground mb-1">
-                      {standard.code}
+                      {standard.name}
                     </h3>
+                    <h4 className="text-sm text-muted-foreground mb-1">
+                      {standard.code}
+                    </h4>
 
                     <Button
                       variant="outline"
                       size="sm"
                       className="w-full"
                       onClick={() => {
-                        // setSelectedStandard(standard);
+                        setSelectedStandard(standard);
                       }}
                     >
                       <FileText className="w-4 h-4 mr-2" />
@@ -125,7 +114,7 @@ const Standards = () => {
         <DialogContent className="sm:w-full md:w-10/12 sm:max-w-none h-[85vh] p-0 overflow-hidden">
           <DialogHeader className="flex flex-row justify-between p-4 border-b border-border">
             <DialogTitle className="text-lg">
-              {selectedStandard?.code} - {selectedStandard?.title}
+              {selectedStandard?.code}
             </DialogTitle>
             {/* <div className="mr-8">
               <a
@@ -143,7 +132,9 @@ const Standards = () => {
           </DialogHeader>
           <div className="w-full h-full overflow-y-auto">
             {selectedStandard && (
-              <PdfViewer pdfUrl={selectedStandard.pdfUrl ?? ""} />
+              <PdfViewer
+                pdfUrl={selectedStandard.standardPdf?.asset?.url ?? ""}
+              />
             )}
           </div>
         </DialogContent>

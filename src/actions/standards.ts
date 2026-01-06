@@ -18,13 +18,22 @@ export const getStandards = async () => {
   }
 };
 
-export const createStandard = async (name: string, pdfFile: File) => {
+export const createStandard = async (
+  name: string,
+  nameEng: string,
+  code: string,
+  category: string,
+  pdfFile: File
+) => {
   // 1 Upload pdf file to sanity asset
   const asset = await uploadPdfSanity(pdfFile);
   // 2 Create document to sanity
   const newStandard = {
     _type: "standard",
     name,
+    nameEng,
+    code,
+    category,
     standardPdf: {
       _type: "file",
       asset: {

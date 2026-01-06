@@ -11,7 +11,9 @@ const NewsComp = () => {
       <div className="flex justify-between items-center pb-6">
         <h1 className="text-xl font-bold text-secondary">Мэдээний Жагсаалт</h1>
         <Button asChild>
-          <Link href={"/admin/news/new"}>Шинэ мэдээ</Link>
+          <Link href={"/admin/news/new"} className="uppercase">
+            Шинэ мэдээ
+          </Link>
         </Button>
       </div>
       <Suspense fallback={<Loading />}>
