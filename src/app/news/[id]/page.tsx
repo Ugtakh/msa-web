@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Header";
@@ -10,9 +9,8 @@ import Footer from "@/components/sections/FooterSection";
 import { ArrowLeft, Calendar, Loader2 } from "lucide-react";
 import { formatDate } from "@/lib/format-date";
 import { useParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getNewsByid } from "@/actions/news";
-import { NEWS_QUERY_BY_IDResult } from "../../../../sanity.types";
 import { toast } from "sonner";
 import { convertToHTML } from "@/lib/general-functions";
 
@@ -20,10 +18,12 @@ type NewsCategory = "news" | "event" | "workshop" | "announcement";
 
 const NewsDetail = () => {
   const t = useTranslations("news");
+  const locale = useLocale();
   const { id } = useParams<{ id: string }>();
 
   const [article, setArticle] = useState<any>(null);
   const [content, setContent] = useState<string>("");
+  const [contentEng, setContentEng] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -43,8 +43,10 @@ const NewsDetail = () => {
       return;
     }
     const con = await convertToHTML(JSON.parse(news.content ?? ""));
+    const conEng = await convertToHTML(JSON.parse(news.contentEng ?? ""));
     setArticle(() => news);
     setContent(() => con);
+    setContentEng(() => conEng);
     setLoading(false);
   };
 
@@ -100,14 +102,14 @@ const NewsDetail = () => {
               className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {"Мэдээ рүү буцах"}
+              {t("backBtnText")}
             </Link>
 
             <Badge className="h-fit">{getCategoryLabel("news")}</Badge>
           </div>
           {/* Title */}
           <h1 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-foreground mb-6">
-            {article.title}
+            {locale === "mn" ? article.title : article.titleEng}
           </h1>
 
           {/* Date */}
@@ -134,14 +136,16 @@ const NewsDetail = () => {
             [&_li]:mb-1 [&_li]:ml-5
             [&_ul.contains-task-list]:list-none [&_ul.contains-task-list]:ml-0
             [&_p]:mb-4"
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={{
+              __html: locale === "mn" ? content : contentEng,
+            }}
           />
 
           <div className="mt-12 pt-8 border-t border-border">
             <Button asChild variant="outline">
               <Link href="/#news">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                {"Бүх мэдээ рүү буцах"}
+                {t("viewAll")}
               </Link>
             </Button>
           </div>

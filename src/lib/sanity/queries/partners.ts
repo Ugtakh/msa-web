@@ -8,6 +8,7 @@ export const ALL_PARTNERS_QUERY = defineQuery(`*[
 ] | order(createdAt asc) {
   _id,
   name,
+  nameEng,
   "partnerLogo": partnerLogo{
     asset->{
       _id,

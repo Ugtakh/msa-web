@@ -22,6 +22,7 @@ export type Standard = {
   name?: string;
   nameEng?: string;
   code?: string;
+  category?: "iso" | "mng";
   standardPdf?: {
     asset?: {
       _ref: string;
@@ -428,10 +429,11 @@ export type ALL_ARTICLE_QUERYResult = Array<{
 
 // Source: ./src/lib/sanity/queries/partners.ts
 // Variable: ALL_PARTNERS_QUERY
-// Query: *[  _type == "partner"] | order(createdAt asc) {  _id,  name,  "partnerLogo": partnerLogo{    asset->{      _id,      url    },  }}
+// Query: *[  _type == "partner"] | order(createdAt asc) {  _id,  name,  nameEng,  "partnerLogo": partnerLogo{    asset->{      _id,      url    },  }}
 export type ALL_PARTNERS_QUERYResult = Array<{
   _id: string;
   name: string | null;
+  nameEng: string | null;
   partnerLogo: {
     asset: {
       _id: string;
@@ -464,7 +466,7 @@ declare module "@sanity/client" {
     '*[\n  _type == "news"\n] | order(publishedAt asc) {\n  _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_NEWS_QUERYResult;
     '*[\n  _type == "news"\n  && _id == $_id\n][0] {\n  "_id": _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': NEWS_QUERY_BY_IDResult;
     '*[\n  _type == "news"\n] | order(publishedAt desc) {\n  _id,\n  title,\n  titleEng,\n  content,\n  contentEng,\n  publishedAt,\n  "thumbnailUrl": thumbnailUrl{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_ARTICLE_QUERYResult;
-    '*[\n  _type == "partner"\n] | order(createdAt asc) {\n  _id,\n  name,\n  "partnerLogo": partnerLogo{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_PARTNERS_QUERYResult;
+    '*[\n  _type == "partner"\n] | order(createdAt asc) {\n  _id,\n  name,\n  nameEng,\n  "partnerLogo": partnerLogo{\n    asset->{\n      _id,\n      url\n    },\n  }\n}': ALL_PARTNERS_QUERYResult;
     '*[\n    _type == "standard"\n    ] | order(cratedAt asc) {\n    _id,\n    name,\n    nameEng,\n    code,\n    "standardPdf":standardPdf{\n        asset->{\n        _id,\n        url\n        }\n    }\n}': ALL_STANDARDS_QUERYResult;
   }
 }

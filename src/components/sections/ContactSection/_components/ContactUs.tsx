@@ -2,14 +2,8 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import Earth from "@/components/ui/globe";
-import { SparklesCore } from "@/components/ui/sparkles";
-import { Label } from "@/components/ui/label";
-import { Check, Loader2 } from "lucide-react";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 
 type Locale = "en" | "mn";
@@ -18,43 +12,43 @@ export default function ContactUs() {
   const t = useTranslations("contacts");
   const locale = useLocale() as Locale;
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [message, setMessage] = useState("");
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [isSubmitted, setIsSubmitted] = useState(false);
 
   const formRef = useRef(null);
   const isInView = useInView(formRef, { once: true, amount: 0.3 });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
 
-    try {
-      // Perform form submission logic here
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setName("");
-      setEmail("");
-      setMessage("");
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //   try {
+  //     // Perform form submission logic here
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+  //     setName("");
+  //     setEmail("");
+  //     setMessage("");
+  //     setIsSubmitted(true);
+  //     setTimeout(() => {
+  //       setIsSubmitted(false);
+  //     }, 5000);
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   const contactInfo = [
     {
       icon: MapPin,
       title: "address",
       content: {
-        en: "Ulaanbaatar, Mongolia, Sukhbaatar District",
-        mn: "Улаанбаатар, Монгол, Сүхбаатар дүүрэг",
+        en: "Chingeltei District, Ulaanbaatar, Mongolia",
+        mn: "Монгол, Улаанбаатар, Чингэлтэй дүүрэг",
       },
     },
     {
@@ -77,13 +71,11 @@ export default function ContactUs() {
       icon: Clock,
       title: "workingHours",
       content: {
-        en: "Mon - Fri: 9:00 AM - 6:00 PM",
-        mn: "Даваа - Баасан: 9:00 - 18:00",
+        en: "Mon - Fri: 9:00 AM - 06:00 PM",
+        mn: "Дав - Баа: 9:00 - 18:00",
       },
     },
   ];
-
-  //radial-gradient(circle at center, #1677ff, transparent 70%)
 
   return (
     <section className=" container mx-auto px-4 relative w-full overflow-hidden py-14 md:py-18">
@@ -121,10 +113,10 @@ export default function ContactUs() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex w-full gap-2"
+              className="flex w-full gap-1"
             >
               {/* Contact Info */}
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {contactInfo.map((info) => (
                   <div
                     key={info.title}

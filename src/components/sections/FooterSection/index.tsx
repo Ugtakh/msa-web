@@ -47,11 +47,7 @@ const FooterSection = () => {
                 className="object-fit w-18 h-auto"
               />
               <div className="flex flex-col">
-                <span
-                  className={`text-center ${
-                    locale === "mn" ? "text-[25px]" : "text-[24px]"
-                  }`}
-                >
+                <span className={`text-center text-[25px] leading-8`}>
                   {locale === "mn" ? "МОНГОЛЫН" : "MONGOLIAN"}
                 </span>
                 {/* MONGOLIAN  МОНГОЛЫН*/}

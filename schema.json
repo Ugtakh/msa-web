@@ -55,6 +55,23 @@
         },
         "optional": true
       },
+      "category": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "iso"
+            },
+            {
+              "type": "string",
+              "value": "mng"
+            }
+          ]
+        },
+        "optional": true
+      },
       "standardPdf": {
         "type": "objectAttribute",
         "value": {
