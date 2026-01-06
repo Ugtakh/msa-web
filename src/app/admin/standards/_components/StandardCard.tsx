@@ -8,7 +8,7 @@ type StandardCardProps = {
 
 const StandartCard = ({ standard }: StandardCardProps) => {
   return (
-    <Card className="w-full flex flex-col items-center relative max-w-2xs mx-auto overflow-hidden p-1 backdrop-blur py-4 hover:shadow-2xl hover:scale-105 tran transition-all duration-300">
+    <Card className="w-full flex flex-col items-center relative mx-auto overflow-hidden p-1 backdrop-blur py-4 hover:shadow-2xl hover:scale-105 tran transition-all duration-300">
       <div className="relative flex flex-col items-center justify-center drop-shadow-2">
         <FileTypeIcon className="w-20 h-15" />
         <span className="text-xs text-secondary">PDF FILE</span>

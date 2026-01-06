@@ -1,12 +1,23 @@
 "use server";
 
 import { sanityFetch } from "@/lib/sanity/client";
-import { NEWS_QUERY_BY_IDResult } from "./../../sanity.types";
-import { NEWS_QUERY_BY_ID, ALL_ARTICLE_QUERY } from "@/lib/sanity/queries/news";
-
+import { ALL_NEWS_QUERY, NEWS_QUERY_BY_ID } from "@/lib/sanity/queries/news";
 import { uploadImageSanity } from "@/lib/general-functions";
 import { writeClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
+
+export const getNews = async () => {
+  try {
+    const news = await sanityFetch({
+      query: ALL_NEWS_QUERY,
+      revalidate: 120,
+    });
+
+    return news;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const getNewsByid = async (id: string) => {
   try {
@@ -84,16 +95,4 @@ export const createNewsNew = async (news: any, imageFile: File) => {
 
   await writeClient.create(newsDoc);
   revalidatePath("/admin/news");
-};
-
-export const getArticles = async () => {
-  try {
-    const news = await sanityFetch({
-      query: ALL_ARTICLE_QUERY,
-    });
-
-    return news;
-  } catch (error) {
-    throw error;
-  }
 };

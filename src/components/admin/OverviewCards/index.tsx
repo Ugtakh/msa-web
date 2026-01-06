@@ -1,53 +1,24 @@
-import {
-  Building2Icon,
-  NewspaperIcon,
-  NotebookIcon,
-  ViewIcon,
-} from "lucide-react";
 import { OverviewCard } from "./_components/Card";
+import { sanityFetch } from "@/lib/sanity/client";
+import { ALL_STATISTICS_QUERY } from "@/lib/sanity/queries/dashboard";
+import { statistics } from "@/lib/types";
 
-export function OverviewCardsGroup() {
+export async function OverviewCardsGroup() {
+  const statData = await sanityFetch({ query: ALL_STATISTICS_QUERY });
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-4 2xl:gap-6">
-      <OverviewCard
-        label="Нийт баннер"
-        data={{
-          value: 100,
-          growthRate: 5,
-        }}
-        Icon={ViewIcon}
-        iconClassName="bg-green-400 rounded-lg"
-      />
-
-      <OverviewCard
-        label="Нийт хамтрагчид"
-        data={{
-          value: 100,
-          growthRate: 10,
-        }}
-        Icon={Building2Icon}
-        iconClassName="bg-orange-400 rounded-lg"
-      />
-
-      <OverviewCard
-        label="Нийт стандарт"
-        data={{
-          value: 100,
-          growthRate: 10,
-        }}
-        Icon={NotebookIcon}
-        iconClassName="bg-violet-400 rounded-lg"
-      />
-
-      <OverviewCard
-        label="Нийт мэдээ"
-        data={{
-          value: 10,
-          growthRate: 10,
-        }}
-        Icon={NewspaperIcon}
-        iconClassName="bg-blue-400 rounded-lg"
-      />
+      {statistics.map(({ label, value, icon, iconClassName }) => (
+        <OverviewCard
+          key={value}
+          label={label}
+          data={{
+            value: statData[value],
+          }}
+          Icon={icon}
+          iconClassName={iconClassName}
+        />
+      ))}
     </div>
   );
 }

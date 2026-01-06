@@ -6,10 +6,10 @@ import { ArrowRight, Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { ALL_ARTICLE_QUERYResult } from "../../../../../sanity.types";
+import { ALL_NEWS_QUERYResult } from "../../../../../sanity.types";
 
 type NewsCardProps = {
-  newsItem: ALL_ARTICLE_QUERYResult[0];
+  newsItem: ALL_NEWS_QUERYResult[0];
 };
 
 export function NewsCard({ newsItem }: NewsCardProps) {
@@ -23,7 +23,7 @@ export function NewsCard({ newsItem }: NewsCardProps) {
   return (
     <Link
       href={`/admin/news/edit`}
-      className="news-card group w-full max-w-sm p-0 bg-white rounded-xl overflow-hidden border border-border hover:shadow-xl transition-all duration-500"
+      className="news-card group w-full p-0 bg-white rounded-xl overflow-hidden border border-border hover:shadow-xl transition-all duration-500"
       onClick={handleNews}
     >
       <div className="relative overflow-hidden">
@@ -34,7 +34,7 @@ export function NewsCard({ newsItem }: NewsCardProps) {
           alt={"news"}
           width={400}
           height={300}
-          className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-30 object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute top-4 left-4">
           <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
@@ -42,16 +42,15 @@ export function NewsCard({ newsItem }: NewsCardProps) {
           </span>
         </div>
       </div>
-      <div className="p-6">
+      <div className="p-5">
         <div className="flex items-center text-muted-foreground text-sm mb-3">
           <Calendar className="w-4 h-4 mr-2" />
           {formatDate(locale, newsItem.publishedAt)}
         </div>
         <h3
           className="text-sm'
-         font-semibold text-foreground mb-3 group-hover:text-primary transition-colors"
+         font-semibold text-foreground mb-2 group-hover:text-primary transition-colors"
         >
-          {/* {item?.title[locale] || item.title.mn} */}
           {newsItem.title}
         </h3>
 

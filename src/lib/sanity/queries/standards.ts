@@ -10,6 +10,7 @@ export const ALL_STANDARDS_QUERY = defineQuery(`*[
     name,
     nameEng,
     code,
+    category,
     "standardPdf":standardPdf{
         asset->{
         _id,

@@ -12,7 +12,7 @@ type PartnerCardProps = {
 
 const PartnerCard = ({ partner }: PartnerCardProps) => {
   return (
-    <Card className="w-full flex flex-col items-center relative max-w-2xs mx-auto overflow-hidden p-1 backdrop-blur py-4">
+    <Card className="w-full flex flex-col items-center relative mx-auto overflow-hidden p-1 backdrop-blur py-4">
       <div className="relative w-30 h-30 drop-shadow-2">
         <Avatar className=" w-30 h-30">
           <AvatarImage
