@@ -78,6 +78,7 @@ export default function NewNewsPage() {
         };
         await createNews(newsDoc, imageFile);
         toast.success("Мэдээ амжилттай нэмэгдлээ!");
+        router.refresh();
         router.push("/admin/news");
       });
     } catch (error) {

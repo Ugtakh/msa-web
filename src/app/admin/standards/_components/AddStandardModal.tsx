@@ -131,13 +131,12 @@ export function AddStandardModal() {
 
     startTransition(async () => {
       try {
-        // await new Promise((r) => setTimeout(r, 3000));
         await createStandard(name, nameEng, code, category, pdfFile);
-        router.refresh();
         toast.success("Амжилттай хадгалагдлаа");
         setName("");
         setPdfFile(null);
         setOpen(false);
+        router.refresh();
       } catch (error) {
         toast.error("Алдаа гарлаа дахин оролдоно уу");
       }

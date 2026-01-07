@@ -5,12 +5,17 @@ import { createSessionClient } from "@/lib/appwrite/client";
 import { getPreviewUrl } from "@/lib/getPreviewUrl";
 import { BannerType } from "@/lib/schemas";
 import { uploadImageSanity } from "@/lib/general-functions";
-import { sanityFetch } from "@/sanity/lib/live";
+
 import { ALL_BANNERS_QUERY } from "@/lib/sanity/queries/banner";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { sanityFetch } from "@/lib/sanity/client";
 
 export const getBanners = async () => {
-  const { data: banners } = await sanityFetch({ query: ALL_BANNERS_QUERY });
+  const banners = await sanityFetch({
+    query: ALL_BANNERS_QUERY,
+    tags: ["banners"],
+    revalidate: 120,
+  });
   return banners;
 };
 
@@ -35,6 +40,8 @@ export const createBanner = async (banner: BannerType, imageFile: File) => {
     },
     publishedAt: new Date(banner.publishedAt),
   };
+
+  revalidateTag("banners", "max");
   await writeClient.create(newBanner);
   revalidatePath("/admin/banners");
 };
@@ -54,7 +61,7 @@ export const updateBannerById = async (
     ...updatedBanner,
     publishedAt: new Date(banner.publishedAt),
   };
-
+  revalidateTag("banners", "max");
   await writeClient.patch(_id).set(updatedNew).commit();
   revalidatePath("/admin/banners");
 };

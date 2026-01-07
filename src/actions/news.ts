@@ -4,12 +4,13 @@ import { sanityFetch } from "@/lib/sanity/client";
 import { ALL_NEWS_QUERY, NEWS_QUERY_BY_ID } from "@/lib/sanity/queries/news";
 import { uploadImageSanity } from "@/lib/general-functions";
 import { writeClient } from "@/sanity/lib/client";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const getNews = async () => {
   try {
     const news = await sanityFetch({
       query: ALL_NEWS_QUERY,
+      tags: ["news"],
       revalidate: 120,
     });
 
@@ -26,7 +27,6 @@ export const getNewsByid = async (id: string) => {
       params: { _id: id },
       revalidate: 120,
     });
-
     return news;
   } catch (error) {
     throw error;
@@ -51,6 +51,7 @@ export const createNews = async (news: any, imageFile: File) => {
     contentEng: news.contentEng,
     publishedAt: new Date(news.publishedAt),
   };
+  revalidateTag("news", "max");
   await writeClient.create(newsDoc);
   revalidatePath("/admin/news");
 };
@@ -70,6 +71,7 @@ export const updateNewsById = async (
     ...updatedNews,
     publishedAt: new Date(news.publishedAt),
   };
+  revalidateTag("news", "max");
   await writeClient.patch(_id).set(updateDoc).commit();
   revalidatePath("/admin/news");
 };

@@ -18,7 +18,6 @@ import { FormEvent, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 import noLogo from "@/assets/images/no-logo.png";
 import { createPartner } from "@/actions/partners";
 
@@ -51,13 +50,13 @@ export function AddPartnerModal() {
       try {
         // await new Promise((r) => setTimeout(r, 3000));
         await createPartner(name, nameEng, imageFile);
-        router.refresh();
         toast.success("Амжилттай хадгалагдлаа");
         setPreview("");
         setName("");
         setNameEng("");
         setImageFile(null);
         setOpen(false);
+        router.refresh();
       } catch (error) {
         toast.error("Алдаа гарлаа дахин оролдоно уу");
       }

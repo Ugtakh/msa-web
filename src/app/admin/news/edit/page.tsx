@@ -73,6 +73,7 @@ const EditPage = () => {
         const id = news?._id!;
         await updateNewsById(id, updateDoc, imageFile);
         toast.success("Мэдээ амжилттай шинэчлэгдлээ!");
+        router.refresh();
         router.push("/admin/news");
       });
     } catch (error) {

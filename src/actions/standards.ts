@@ -1,16 +1,18 @@
 "use server";
 
 import { writeClient } from "@/sanity/lib/client";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { uploadPdfSanity } from "@/lib/general-functions";
 import { ALL_STANDARDS_QUERY } from "@/lib/sanity/queries/standards";
-import { sanityFetch } from "@/sanity/lib/live";
 import { ALL_STANDARDS_QUERYResult } from "../../sanity.types";
+import { sanityFetch } from "@/lib/sanity/client";
 
 export const getStandards = async () => {
   try {
-    const { data: partners } = await sanityFetch({
+    const partners = await sanityFetch({
       query: ALL_STANDARDS_QUERY,
+      tags: ["standards"],
+      revalidate: 120,
     });
     return partners as ALL_STANDARDS_QUERYResult;
   } catch (error) {
@@ -42,6 +44,7 @@ export const createStandard = async (
       },
     },
   };
+  revalidateTag("standards", "max");
   await writeClient.create(newStandard);
   revalidatePath("/admin/standards");
 };
